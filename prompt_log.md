@@ -111,3 +111,56 @@ Mỗi tính năng có mục riêng về cách hướng dẫn AI theo từng bư�
 
 Đã bỏ mục kết luận, phụ lục AI và liên kết nhật ký khỏi báo cáo. Lượt 4 đã được ghi vào `prompt_log.md`.
 ```
+
+## 5
+
+Tool: OpenAI Codex
+
+Thời gian: 15/11/2026 22:35:36 (UTC+07:00)
+
+### Prompt
+
+```text
+hay commit những code hiện tại, viết 15 test FR-06 theo `Report.md`, dữ liệu JSON riêng, ít nhất 3 mẫu assertion, expected theo SRS, chạy Chromium, lưu HTML có MSSV (`Run by: `23120226) và timestamp ISO
+
+```
+
+### Output
+
+```text
+Mình sẽ commit phần hiện có trước, sau đó viết 15 ca FR-06 theo `Report.md` và chạy Chromium. Báo cáo HTML sẽ ghi `Run by: 23120226` cùng thời điểm chạy theo ISO 8601.
+
+
+Commit khởi tạo đã xong. Chromium đã chạy qua các ca hiển thị tên, ảnh, giá và mô tả. Những ca đã báo lỗi đến giờ liên quan đến danh mục, breadcrumb và thao tác thêm vào giỏ sau một lần bấm.
+
+
+Đã commit phần khởi tạo ở `f2d5364`. Sau đó mình viết [15 test FR-06](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/tests/fr-06.spec.ts>) theo SRS, với [dữ liệu JSON riêng](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/data/fr-06.json>) và hơn ba mẫu assertion. Phần test mới chưa commit.
+
+**Chromium chạy đủ 15 ca, 6 đạt và 9 lỗi.** Các ca lỗi liên quan đến danh mục, breadcrumb, phản hồi và thao tác thêm vào giỏ, kiểm tra số lượng và badge giỏ hàng. Mình đã ghi kết quả vào `Report.md` và giữ nguyên logic SUT.
+
+Đã mở và kiểm tra [báo cáo HTML](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/reports/fr-06/chromium/index.html>) có dòng `Run by: 23120226 | 2026-11-15T15:37:17.560Z`. Lượt này đã được ghi vào `prompt_log.md`.
+```
+
+## 6
+
+Tool: OpenAI Codex
+
+Thời gian: 16/11/2026 14:49:19 (UTC+07:00)
+
+### Prompt
+
+```text
+sửa FR06-15 theo luồng chuẩn: giỏ trống, vào chi tiết P1, thêm 1 lần, xác nhận P1 vào giỏ rồi kiểm badge 1. làm tương tự với P2, xác nhận giỏ có cả hai rồi kiểm badge 2. assertion sai thì fail ngay, ko bấm thêm lần hai, ko dùng nút thêm ở trang chủ. cập nhật test case trong Report.md cho khớp script.
+
+```
+
+### Output
+
+```text
+Mình sẽ sửa riêng FR06-15 để kiểm tra sản phẩm đã vào giỏ trước khi kiểm badge, rồi đồng bộ ca này trong `Report.md`.
+
+
+Đã sửa [FR06-15](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/tests/fr-06.spec.ts:154>) và đồng bộ ca trong [Report.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/Report.md:72>). Ca bắt đầu với giỏ trống, bấm thêm đúng một lần trên trang chi tiết của từng sản phẩm, xác nhận các dòng trong giỏ rồi mới kiểm badge.
+
+Chạy riêng trên Chromium, ca dừng đúng tại assertion đầu tiên bị lỗi: **P1 chưa có trong giỏ sau một lần bấm**. Ca chưa tới bước kiểm badge 1 hay thêm P2. Lượt 6 đã được ghi vào `prompt_log.md`.
+```

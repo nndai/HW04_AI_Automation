@@ -69,23 +69,39 @@ Mỗi ca mở một browser context mới, bắt đầu với khách chưa đăn
 | FR06-12 | P1, số lượng −1 (nhập `-1`) | Nhập −1, kiểm tra giá trị rồi thử thêm nếu ô vẫn giữ −1. | Số âm bị chặn hoặc được sửa rõ ngay ở ô. Nếu ô vẫn giữ −1, giỏ giữ trống. | FR-06 số nguyên dương | `toHaveValue` khớp số nguyên dương khi tự sửa, hoặc `toHaveCount(0)` đối với dòng P1 trong giỏ. |
 | FR06-13 | P1, số lượng 1,5 (nhập `1.5`) | Nhập 1.5, kiểm tra giá trị rồi thử thêm nếu ô vẫn giữ phân số. | Phân số bị chặn hoặc được sửa rõ ngay ở ô. Nếu ô vẫn hiển thị 1.5, giỏ giữ trống. | FR-06 chỉ nhận số nguyên | `toHaveValue` khớp số nguyên dương khi tự sửa, hoặc `toHaveCount(0)` đối với dòng P1, kể cả khi SUT định thêm 1 do cắt phần thập phân. |
 | FR06-14 | P1, số lượng rỗng | Xóa giá trị. Thử bấm thêm nếu ô vẫn rỗng và thao tác khả dụng. | Ô được khôi phục về số nguyên dương trước khi có thể thêm, hoặc thao tác thêm bị chặn khi ô rỗng. | FR-06 số nguyên dương tối thiểu 1 | `toHaveValue` khớp số nguyên dương khi tự khôi phục, hoặc `toBeDisabled` trên nút hoặc `toHaveCount(0)` trên dòng P1 trong giỏ khi ô rỗng. |
-| FR06-15 | P1, P2, số lượng 1 cho từng sản phẩm | Từ trang chi tiết P1 thêm 1 lần. Dùng điều hướng nội bộ về trang chủ, mở P2 và thêm 1 lần. | Badge giỏ hàng tăng từ 1 lên 2 ngay sau mỗi lần thêm. | FR-23 badge số lượng, FR-06 thêm vào giỏ | `toHaveText('1')` rồi `toHaveText('2')` trên badge thuộc liên kết Giỏ hàng. |
+| FR06-15 | Giỏ trống, P1 và P2, số lượng 1 cho mỗi sản phẩm | Xác nhận giỏ trống. Mở chi tiết P1 qua liên kết Xem chi tiết, nhập 1 và bấm thêm đúng một lần. Mở giỏ, xác nhận P1 rồi kiểm tra badge 1. Quay về trang chủ qua điều hướng nội bộ, mở chi tiết P2, nhập 1 và bấm thêm đúng một lần. Mở giỏ, xác nhận có cả P1 và P2 rồi kiểm tra badge 2. Dừng ca ngay khi một assertion thất bại. | Sau lần thêm P1, giỏ có P1 số lượng 1 và badge hiển thị 1. Sau lần thêm P2, giỏ có cả P1 và P2, mỗi sản phẩm số lượng 1, và badge hiển thị 2. | FR-06 thêm vào giỏ, FR-23 badge số lượng | `toBeVisible` cho trạng thái giỏ trống, `toHaveURL` cho trang chi tiết, `toBeVisible` cho từng dòng cần có trong giỏ, rồi `toHaveText('1')` cho số lượng mỗi dòng và `toHaveText` cho badge 1 hoặc 2 ở bước tương ứng. |
 
 #### Ghi chú khi chuyển thành script
 
 - Với FR06-11 đến FR06-14, phải xác minh giá trị nhập, trạng thái điều khiển hoặc tín hiệu từ chối có thể quan sát trước khi kết luận. Giỏ trống sau lần bấm đầu riêng lẻ có thể do lỗi bỏ qua cú bấm. Khi ô vẫn giữ dữ liệu sai, thử nút còn khả dụng lần thứ hai để kiểm tra đường xử lý thêm, rồi xác nhận giỏ giữ trống. FR06-09 và FR06-10 vẫn phải dùng đúng một cú bấm.
 - Kiểm tra giỏ bằng điều hướng nội bộ để giữ trạng thái React. Các ca dùng giỏ làm điểm quan sát hậu quả của thao tác trong FR-06.
-- FR06-02 phụ thuộc ảnh seed ở máy chủ ngoài. Ghi nhận riêng lỗi tải từ nguồn ngoài khi phân tích kết quả. Các ca ở bảng là ca dự kiến và chưa chạy thành bộ kiểm thử.
+- FR06-02 phụ thuộc ảnh seed ở máy chủ ngoài. Ghi nhận riêng lỗi tải từ nguồn ngoài khi phân tích kết quả.
 
 #### Cách hướng dẫn AI theo từng bước
 
+1. Đọc SRS và đối chiếu các yêu cầu FR-06, FR-21, FR-23, FR-24 với web mua sắm và mã SUT.
+2. Thiết kế 15 ca với dữ liệu, thao tác, kết quả mong đợi và assertion dự kiến. Dùng SRS để xác định kết quả mong đợi.
+3. Chuyển từng ca thành script Playwright, tách dữ liệu sang JSON, chạy Chromium và kiểm tra báo cáo HTML.
+
 #### Dữ liệu kiểm thử
+
+Tệp JSON chứa dữ liệu ba sản phẩm mẫu, các giá trị số lượng hợp lệ và không hợp lệ, cùng số lượng mong đợi trên badge. [Dữ liệu FR-06](data/fr-06.json)
 
 #### Assertion sử dụng
 
+- `toHaveURL` kiểm tra điều hướng. `toHaveCount` kiểm tra số tiêu đề hoặc số dòng sản phẩm.
+- `toBeVisible`, `toHaveText` và `toHaveAttribute` kiểm tra nội dung, phản hồi trực quan và thuộc tính ảnh.
+- `toHaveValue` kiểm tra số lượng. `expect.poll` đợi ảnh tải hoặc đợi toast hay badge cập nhật.
+
 #### Script kiểm thử
 
+Mỗi ca chạy trong một browser context mới. Các ca số lượng sai dùng cùng luồng kiểm thử với dữ liệu đầu vào riêng. [Script FR-06](tests/fr-06.spec.ts)
+
 #### Rà soát script AI, nguyên nhân thiếu sót và cách sửa
+
+- **Thiếu sót trong FR06-15 do AI viết.** Bản đầu chỉ kiểm badge sau khi bấm thêm. Lần kiểm đầu dùng `expect.soft`, nên script vẫn tiếp tục với P2 dù P1 có thể chưa được thêm. Kết quả vì thế khó phân biệt lỗi thêm sản phẩm với lỗi hiển thị badge.
+- **Cách sửa.** Xác nhận giỏ trống trước khi bắt đầu. Với P1, mở trang chi tiết, nhập 1 và bấm thêm một lần, rồi kiểm giỏ có P1 với số lượng 1 trước khi kiểm badge 1. Với P2, thực hiện tương tự, kiểm giỏ có cả hai dòng với số lượng 1 rồi mới kiểm badge 2. Dùng assertion dừng ca ngay khi một bước thất bại.
+- **Xác minh sau khi sửa.** Trên cả ba trình duyệt, FR06-15 dừng ở bước xác nhận P1 có trong giỏ sau một lần bấm. Lượt chạy này chưa tới bước kiểm badge 1 hoặc thêm P2.
 
 #### Ca chưa tự động hóa và lý do
 
@@ -131,13 +147,13 @@ Mỗi ca mở một browser context mới, bắt đầu với khách chưa đăn
 
 ### Các lượt chạy theo tính năng và trình duyệt
 
-Mỗi dòng tương ứng với một lượt chạy dự kiến. Điền số liệu và liên kết sau khi thực thi. Cột Lỗi ghi số ca kiểm thử không đạt trong lượt chạy.
+Mỗi dòng tương ứng với một lượt chạy. Các lượt chưa thực thi để trống số liệu và liên kết. Cột Lỗi ghi số ca kiểm thử không đạt trong lượt chạy.
 
 | Tính năng | Trình duyệt | Số ca chạy | Đạt | Lỗi | Liên kết HTML |
 | --- | --- | --- | --- | --- | --- |
-| FR-06 | Chromium | | | | |
-| FR-06 | Firefox | | | | |
-| FR-06 | WebKit | | | | |
+| FR-06 | Chromium | 15 | 6 | 9 | [HTML](reports/fr-06/chromium/index.html) |
+| FR-06 | Firefox | 15 | 7 | 8 | [HTML](reports/fr-06/firefox/index.html) |
+| FR-06 | WebKit | 15 | 6 | 9 | [HTML](reports/fr-06/webkit/index.html) |
 | FR-07 | Chromium | | | | |
 | FR-07 | Firefox | | | | |
 | FR-07 | WebKit | | | | |
