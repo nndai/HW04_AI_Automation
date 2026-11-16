@@ -1,0 +1,11 @@
+{
+  "products": {
+    "P1": { "name": "iPhone 15 Pro Max", "unitPrice": "30.000.000 ₫" },
+    "P2": { "name": "Samsung Galaxy S24 Ultra", "unitPrice": "28.000.000 ₫" }
+  },
+  "columns": ["Sản phẩm", "Đơn giá", "Số lượng", "Thành tiền", "Thao tác"],
+  "quantities": { "single": "1", "double": "2" },
+  "totals": { "doubleP1": "60.000.000 ₫", "oneOfEach": "58.000.000 ₫" },
+  "totalLabel": "Tổng cộng",
+  "continueLabel": "Tiếp tục mua sắm"
+}

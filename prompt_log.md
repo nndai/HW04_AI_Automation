@@ -191,3 +191,32 @@ Mình đã mở và xác minh các báo cáo HTML hiện có. Firefox đạt 7/1
 
 Sau commit, mình thêm **15 ca FR-07 theo SRS** vào mục 4.2, có dữ liệu, thao tác, kết quả mong đợi và assertion dự kiến. Phần FR-07 chưa có script và chưa commit. Lượt 7 đã được ghi nguyên văn vào `prompt_log.md`.
 ```
+
+## 8
+
+Tool: OpenAI Codex
+
+Thời gian: 16/11/2026 18:30:04 (UTC+07:00)
+
+### Prompt
+
+```text
+đổi fr07-06 thành fail nếu bước chuẩn bị sai. viết 15 test fr-07 theo report, data json riêng, ít nhất 3 mẫu assertion. chạy chromium trước, lưu html có mssv và timestamp iso.
+
+```
+
+### Output
+
+```text
+Mình sẽ đổi FR07-06 để ca thất bại ngay khi dữ liệu chuẩn bị sai, rồi viết đủ 15 ca với JSON riêng và chạy Chromium để xuất báo cáo HTML.
+
+
+Lượt đầu phát hiện một lỗi trong script: bước chuẩn bị tìm nút “Thêm vào giỏ hàng”, trong khi trang chủ dùng nhãn “Thêm vào giỏ”. Mình sẽ sửa bộ chọn và chạy lại đủ 15 ca trước khi chốt số liệu.
+
+
+Đã viết [15 test FR-07](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/tests/fr-07.spec.ts>) với [dữ liệu JSON riêng](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/data/fr-07.json>) và 5 mẫu assertion. FR07-06 thất bại ngay ở bước chuẩn bị vì hai lần thêm P1 tạo **2 dòng**, trong khi ca yêu cầu **1 dòng có số lượng 2**.
+
+**Chromium chạy đủ 15 ca, 4 đạt và 11 lỗi.** Mình đã cập nhật `Report.md` và xác minh [báo cáo HTML](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/reports/fr-07/chromium/index.html>) hiển thị `Run by: 23120226 | 2026-11-16T11:34:12.398Z`.
+
+Lượt đầu dùng sai nhãn nút thêm ở trang chủ. Mình đã sửa bộ chọn và chạy lại toàn bộ. Chưa chạy Firefox hay WebKit, chưa commit. Lượt 8 đã được ghi vào `prompt_log.md`.
+```
