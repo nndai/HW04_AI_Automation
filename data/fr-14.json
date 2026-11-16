@@ -1,0 +1,43 @@
+{
+  "adminUrl": "http://localhost:5174/",
+  "apiUrl": "http://localhost:3000/api",
+  "accounts": {
+    "admin": {
+      "email": "admin@eshop.com",
+      "password": "Admin123!"
+    },
+    "user": {
+      "email": "test@eshop.com",
+      "password": "Test1234!"
+    }
+  },
+  "seed": [
+    {
+      "id": 1,
+      "name": "Điện thoại"
+    },
+    {
+      "id": 2,
+      "name": "Laptop"
+    },
+    {
+      "id": 3,
+      "name": "Phụ kiện"
+    }
+  ],
+  "names": {
+    "create": "Thiết bị học tập",
+    "fixtureA": "Danh mục A",
+    "fixtureB": "Danh mục B",
+    "updated": "Tên sau khi sửa",
+    "single": "Q",
+    "sequentialFirst": "Sách",
+    "sequentialSecond": "Văn phòng phẩm",
+    "switchTab": "Đồ dùng học tập"
+  },
+  "invalid": {
+    "empty": "",
+    "whitespace": "   ",
+    "token": "invalid-token"
+  }
+}

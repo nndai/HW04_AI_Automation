@@ -202,9 +202,17 @@ Dùng P1 và P2 từ dữ liệu mẫu của SUT. Đơn giá tương ứng là 3
 
 Dùng tài khoản admin và user mẫu của SUT theo đúng vai trò, mỗi ca giao diện có phiên riêng. Dùng tên thử phân biệt theo mã ca và lượt chạy. FR14-16 dùng đúng một ký tự và cần xác nhận tên đó chưa tồn tại trước khi bắt đầu. Với ca sửa hoặc xóa, tạo danh mục riêng bằng phiên admin và lưu ID từ phản hồi POST. Dọn dữ liệu thử theo ID sau khi kiểm tra để tránh ảnh hưởng các danh mục mẫu và các ca khác. Các ca so sánh nguyên danh sách chạy tuần tự để kết quả không bị nhiễu bởi thao tác ghi đồng thời.
 
+[Dữ liệu FR-14](data/fr-14.json)
+
 #### Assertion sử dụng
 
+- `toBeVisible`, `toHaveCount` và `toHaveText` kiểm tra màn hình admin, dòng, ID và tên danh mục. `toHaveValue` kiểm tra trường tên trước khi gửi.
+- `toBeOK` kiểm tra phản hồi hợp lệ. `toBe` kiểm tra vai trò, trạng thái từ chối và tên còn lưu. `toEqual` so sánh dữ liệu trước và sau yêu cầu bị từ chối.
+- Với ca âm ở API, assertion trạng thái dùng `expect.soft` để kiểm tra cả việc dữ liệu có bị thay đổi khi máy chủ trả 2xx.
+
 #### Script kiểm thử
+
+[18 ca Playwright FR-14](tests/fr-14.spec.ts) chạy lần lượt trong mỗi trình duyệt. Ca sửa dùng API theo hợp đồng 3.4 rồi đối chiếu giao diện. Các yêu cầu ghi đã tạo dữ liệu được theo dõi bằng ID trả về để dọn danh mục thử sau mỗi ca, kể cả khi assertion thất bại.
 
 #### Rà soát script AI, nguyên nhân thiếu sót và cách sửa
 
@@ -213,6 +221,8 @@ Dùng tài khoản admin và user mẫu của SUT theo đúng vai trò, mỗi ca
 ## 5. Kết quả thực thi đa trình duyệt
 
 ### Tổng hợp ca tự động hóa, đã chạy, đạt, không đạt và số lỗi
+
+Đã tự động hóa 48 ca và thực hiện 9 lượt chạy. Mỗi ca chạy trên cả ba trình duyệt, tổng cộng 144 lần thực thi, gồm 67 đạt và 77 không đạt. Cột Lỗi trong bảng đếm số ca không đạt theo lượt chạy.
 
 ### Các lượt chạy theo tính năng và trình duyệt
 
@@ -226,11 +236,13 @@ Mỗi dòng tương ứng với một lượt chạy. Các lượt chưa thực 
 | FR-07 | Chromium | 15 | 4 | 11 | [HTML](reports/fr-07/chromium/index.html) |
 | FR-07 | Firefox | 15 | 4 | 11 | [HTML](reports/fr-07/firefox/index.html) |
 | FR-07 | WebKit | 15 | 4 | 11 | [HTML](reports/fr-07/webkit/index.html) |
-| FR-14 | Chromium | | | | |
-| FR-14 | Firefox | | | | |
-| FR-14 | WebKit | | | | |
+| FR-14 | Chromium | 18 | 12 | 6 | [HTML](reports/fr-14/chromium/index.html) |
+| FR-14 | Firefox | 18 | 12 | 6 | [HTML](reports/fr-14/firefox/index.html) |
+| FR-14 | WebKit | 18 | 12 | 6 | [HTML](reports/fr-14/webkit/index.html) |
 
 Trong cả ba lượt FR-07, FR07-13 thấy số tiền 58.000.000 ₫ đúng. Ca vẫn không đạt vì nhãn hiển thị “Tổng tạm tính”.
+
+FR-14 có cùng sáu ca không đạt trên cả ba trình duyệt. FR14-05, FR14-06 và FR14-07 ghi nhận tên rỗng hoặc chỉ có khoảng trắng vẫn được lưu. FR14-13, FR14-14 và FR14-15 ghi nhận JWT của user nhận HTTP 200 và làm thay đổi dữ liệu khi thêm, sửa hoặc xóa.
 
 Mỗi lượt chạy phải có một báo cáo HTML riêng. Báo cáo phải hiển thị `Run by: {StudentID}` với MSSV thật và dấu thời gian chạy theo định dạng ISO 8601.
 

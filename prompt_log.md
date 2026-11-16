@@ -306,3 +306,34 @@ Mình sẽ thêm ba ca web vào bảng FR-14 trong `Report.md`, tiếp nối cá
 
 Đã ghi lượt 11 vào `prompt_log.md`. Ba ca mới đang ở bước thiết kế.
 ```
+
+## 12
+
+Tool: OpenAI Codex
+
+Thời gian: 16/11/2026 19:33:15 (UTC+07:00)
+
+### Prompt
+
+```text
+viết các test theo report, data json riêng, ít nhất 3 mẫu assertion, lưu html có mssv và timestamp iso. cập nhật report
+
+```
+
+### Output
+
+```text
+Mình sẽ tự động hóa 18 ca FR-14 trong `Report.md`, tách dữ liệu sang JSON và chạy trên Chromium, Firefox, WebKit. Sau đó mình sẽ xác minh MSSV và timestamp ISO trên từng báo cáo HTML rồi điền kết quả.
+
+
+Chromium đã chạy đủ 18 ca, với 12 đạt và 6 không đạt. Các ca không đạt cho thấy SUT chấp nhận tên rỗng hoặc chỉ có khoảng trắng, và cho JWT của user thực hiện thao tác ghi danh mục. Mình đang đối chiếu hai lượt còn lại.
+
+
+Đã viết [18 test FR-14](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/tests/fr-14.spec.ts>) theo `Report.md`, với [dữ liệu JSON riêng](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/data/fr-14.json>) và hơn ba mẫu assertion.
+
+Mỗi trình duyệt chạy đủ **18 ca, 12 đạt và 6 không đạt**. Các ca không đạt cho thấy SUT chấp nhận tên rỗng hoặc chỉ có khoảng trắng và cho JWT của user thêm, sửa, xóa danh mục.
+
+Đã xác minh cả ba báo cáo HTML có `Run by: 23120226` và timestamp ISO. [Chromium](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/reports/fr-14/chromium/index.html>) · [Firefox](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/reports/fr-14/firefox/index.html>) · [WebKit](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/reports/fr-14/webkit/index.html>)
+
+Đã cập nhật `Report.md` và ghi lượt 12 vào `prompt_log.md`. Phần FR-14 chưa commit.
+```
