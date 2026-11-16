@@ -363,3 +363,29 @@ Chạy lại trên Chromium, Firefox và WebKit, cả hai ca đều không đạ
 
 Đã cập nhật [Report.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/Report.md>) với liên kết các lượt chạy lại, lỗi trong script AI và cách sửa. Lượt 13 đã được ghi vào `prompt_log.md`. Phần sửa sau commit vẫn chưa commit.
 ```
+
+## 14
+
+Tool: OpenAI Codex
+
+Thời gian: 16/11/2026 19:54:42 (UTC+07:00)
+
+### Prompt
+
+```text
+chạy đủ 18 ca fr-14 trên chromium, firefox và webkit, lưu 3 html riêng có mssv và timestamp iso. cập nhật số liệu và link trong bảng chính
+
+```
+
+### Output
+
+```text
+Mình sẽ chạy lại đủ 18 ca FR-14 trên ba trình duyệt với bản sửa mới nhất, rồi xác minh MSSV và timestamp ISO trước khi cập nhật bảng chính.
+
+
+Đã chạy lại đủ **18 ca FR-14 trên mỗi trình duyệt** với bản sửa FR14-05/06. Chromium, Firefox và WebKit đều có **12 đạt, 6 không đạt**.
+
+Đã cập nhật số liệu và liên kết mới trong bảng chính của [Report.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/Report.md>). Cả ba báo cáo HTML đều hiển thị `Run by: 23120226` và timestamp ISO 8601. [Chromium](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/reports/fr-14/full-after-review/chromium/index.html>) · [Firefox](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/reports/fr-14/full-after-review/firefox/index.html>) · [WebKit](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/reports/fr-14/full-after-review/webkit/index.html>)
+
+Đã ghi lượt 14 vào `prompt_log.md`.
+```

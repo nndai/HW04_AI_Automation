@@ -239,9 +239,9 @@ Mỗi dòng tương ứng với một lượt chạy. Các lượt chưa thực 
 | FR-07 | Chromium | 15 | 4 | 11 | [HTML](reports/fr-07/chromium/index.html) |
 | FR-07 | Firefox | 15 | 4 | 11 | [HTML](reports/fr-07/firefox/index.html) |
 | FR-07 | WebKit | 15 | 4 | 11 | [HTML](reports/fr-07/webkit/index.html) |
-| FR-14 | Chromium | 18 | 12 | 6 | [HTML](reports/fr-14/chromium/index.html) |
-| FR-14 | Firefox | 18 | 12 | 6 | [HTML](reports/fr-14/firefox/index.html) |
-| FR-14 | WebKit | 18 | 12 | 6 | [HTML](reports/fr-14/webkit/index.html) |
+| FR-14 | Chromium | 18 | 12 | 6 | [HTML](reports/fr-14/full-after-review/chromium/index.html) |
+| FR-14 | Firefox | 18 | 12 | 6 | [HTML](reports/fr-14/full-after-review/firefox/index.html) |
+| FR-14 | WebKit | 18 | 12 | 6 | [HTML](reports/fr-14/full-after-review/webkit/index.html) |
 
 Trong cả ba lượt FR-07, FR07-13 thấy số tiền 58.000.000 ₫ đúng. Ca vẫn không đạt vì nhãn hiển thị “Tổng tạm tính”.
 
