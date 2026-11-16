@@ -451,3 +451,64 @@ Cả bốn ca đều đạt. Mỗi trình duyệt chạy đủ **15 ca, 10 đạ
 
 Đã cập nhật bảng chính trong [Report.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/Report.md>), ghi lượt 16 vào `prompt_log.md` và commit riêng với thông điệp `Check invalid FR-06 quantities with one add click`. Mã SUT được giữ nguyên.
 ```
+
+## 17
+
+Tool: OpenAI Codex
+
+Thời gian: 16/11/2026 23:07:28 (UTC+07:00)
+
+### Prompt
+
+```text
+rà fr06-03 và fr07-02/12 theo srs. fr06-03 đang buộc alt trùng tên sản phẩm, xem có chặt hơn srs ko. fr07-02/12 đang tìm ảnh hoặc svg trong cả main, giới hạn vào vùng giỏ trống. sửa từng nhóm có căn cứ
+
+```
+
+### Output
+
+```text
+Mình sẽ đối chiếu yêu cầu alt và hình minh họa với SRS, rồi sửa từng nhóm assertion. Sau đó mình sẽ chạy lại ba ca liên quan để kiểm tra các bộ chọn mới.
+
+
+- **FR06-03:** Yêu cầu alt trùng tên sản phẩm chặt hơn FR-24. Đã sửa test để kiểm thuộc tính `alt` có nội dung khác khoảng trắng. Việc alt mô tả đúng ảnh vẫn cần rà soát thủ công.
+- **FR07-02/12:** Theo FR-07 và FR-24, hình minh họa phải thuộc trạng thái giỏ trống. Test giờ chỉ tìm trong vùng chứa thông báo giỏ trống và bỏ qua biểu tượng trong nút hoặc liên kết.
+
+Chạy riêng trên Chromium, **FR06-03 đạt**. **FR07-02** không tìm thấy hình minh họa trong vùng giỏ trống. **FR07-12** dừng ở bước chờ dialog xác nhận xóa, trước khi tới bước kiểm hình minh họa.
+
+Đã cập nhật `Report.md` và ghi lượt 17 vào `prompt_log.md`.
+```
+
+## 18
+
+Tool: OpenAI Codex
+
+Thời gian: 16/11/2026 23:29:27 (UTC+07:00)
+
+### Prompt
+
+```text
+chạy lại đủ 15 ca fr-06 và 15 ca fr-07 trên 3 trình duyệt. lưu 6 html mới, cập nhật link và số liệu trong report. commit riêng từng nhóm sửa
+
+```
+
+### Output
+
+```text
+Mình sẽ chạy đủ 15 ca của mỗi nhóm trên Chromium, Firefox và WebKit, lưu sáu báo cáo HTML mới, rồi cập nhật bảng kết quả và tạo hai commit riêng cho FR-06 và FR-07.
+
+
+FR-06 đã hoàn tất trên cả ba trình duyệt. Mỗi lượt có 10 ca đạt và 5 ca không đạt. Mình đã mở ba HTML và xác nhận chúng chứa phiên bản FR06-03 đã sửa. FR-07 đang chạy.
+
+
+Đã chạy lại **90 lượt ca kiểm thử** trên Chromium, Firefox và WebKit. Kết quả giống nhau trên cả ba trình duyệt.
+
+| Tính năng | Số ca mỗi trình duyệt | Đạt | Không đạt |
+| --- | ---: | ---: | ---: |
+| FR-06 | 15 | 10 | 5 |
+| FR-07 | 15 | 4 | 11 |
+
+Đã cập nhật số liệu và sáu liên kết HTML trong bảng chính của [Report.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/Report.md>). Cả sáu HTML đều hiển thị `Run by: 23120226` và timestamp ISO 8601.
+
+Đã commit riêng FR-06 ở `de6b001` và FR-07 với thông điệp `Scope FR-07 empty cart illustration and refresh reports`. Lượt 18 đã được ghi vào `prompt_log.md`.
+```

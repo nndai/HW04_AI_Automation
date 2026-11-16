@@ -30,7 +30,9 @@ function emptyMessage(page: Page) {
 }
 
 function emptyIllustration(page: Page) {
-  return main(page).getByRole('img').or(main(page).locator('svg, img')).first();
+  const emptyState = emptyMessage(page).locator('..');
+  return emptyState.locator(':is(img, svg, [role="img"]):not(a *, button *)')
+    .filter({ visible: true }).first();
 }
 
 async function openCart(page: Page, ...products: Product[]) {

@@ -130,7 +130,7 @@ Mỗi ca chạy trong một browser context mới. Các ca số lượng sai dù
 | FR07-09 | P1 × 1 | Bấm Xóa trên dòng P1, chưa chọn tùy chọn trong dialog. | Dialog yêu cầu xác nhận xuất hiện trước khi giỏ bị thay đổi. | FR-07 xác nhận xóa, FR-24 dialog | Với modal, dùng `toBeVisible` cho dialog và xác nhận dòng P1 còn tồn tại. Với hộp xác nhận gốc, đợi sự kiện `dialog`, kiểm tra kiểu `confirm` và chọn hủy để kiểm tra dòng P1 vẫn còn. |
 | FR07-10 | P1 × 1, P2 × 1 | Bấm Xóa P1 rồi chọn hủy. | P1 và P2 vẫn còn, mỗi dòng số lượng 1 và tổng vẫn là 58.000.000 ₫. | FR-07 xác nhận trước khi xóa | `toHaveCount(1)` và `toBeVisible` cho từng dòng, `toHaveText` cho số lượng và `toBeVisible` cho số tiền trong vùng tổng giỏ. |
 | FR07-11 | P1 × 1, P2 × 1 | Bấm Xóa P1 rồi xác nhận. | Chỉ P1 bị xóa. P2 còn một dòng số lượng 1 và tổng còn 28.000.000 ₫. | FR-07 xóa đúng dòng và tính tiền | `toHaveCount(0)` cho dòng P1, `toHaveCount(1)` và `toBeVisible` cho dòng P2, `toHaveText` cho số lượng và `toBeVisible` cho số tiền trong vùng tổng giỏ. |
-| FR07-12 | P1 × 1 là dòng duy nhất | Bấm Xóa P1 rồi xác nhận. | Giỏ chuyển sang trạng thái trống, có thông báo và hình minh họa. | FR-07 xóa và giỏ trống, FR-24 trạng thái trống | `toHaveCount(0)` cho dòng sản phẩm và `toBeVisible` cho thông báo và hình minh họa. |
+| FR07-12 | P1 × 1 là dòng duy nhất | Bấm Xóa P1 rồi xác nhận. | Giỏ chuyển sang trạng thái trống, có thông báo và hình minh họa. | FR-07 xóa và giỏ trống, FR-24 trạng thái trống | `toHaveCount(0)` cho dòng sản phẩm, `toBeVisible` cho thông báo và hình minh họa trong cùng vùng trạng thái trống. |
 | FR07-13 | P1 × 1, P2 × 1 | Mở giỏ và kiểm tra riêng nhãn và số tiền trong vùng tổng giỏ. | Nhãn hiển thị chính xác “Tổng cộng” và số tiền là 58.000.000 ₫. | FR-07 nhãn tổng tiền, FR-21 định dạng tiền | `expect.soft(...).toHaveText` kiểm nhãn và `toBeVisible` kiểm số tiền, để cả hai assertion được thực hiện khi nhãn sai. |
 | FR07-14 | Giỏ trống | Bấm Tiếp tục mua sắm từ trạng thái trống. | Điều hướng về trang chủ. | FR-07 tiếp tục mua sắm | `toBeVisible` cho điều khiển có nhãn và `toHaveURL('/')` sau khi bấm. |
 | FR07-15 | P1 × 1 | Bấm Tiếp tục mua sắm từ giỏ đang có sản phẩm. | Điều hướng về trang chủ. | FR-07 tiếp tục mua sắm | `toBeVisible` cho điều khiển có nhãn và `toHaveURL('/')` sau khi bấm. |
@@ -159,6 +159,7 @@ Dùng P1 và P2 từ dữ liệu mẫu của SUT. Đơn giá tương ứng là 3
 
 - Lượt chạy nháp phát hiện bộ chọn chuẩn bị giỏ dùng nhãn “Thêm vào giỏ hàng” của trang chi tiết. Trang chủ dùng nhãn “Thêm vào giỏ”, nên các ca cần sản phẩm bị hết thời gian chờ ở bước chuẩn bị. Đã sửa bộ chọn theo nhãn chính xác trong thẻ của sản phẩm và chạy lại toàn bộ FR-07.
 - Bản đầu kiểm tra nhãn và số tiền bằng cùng một chuỗi. Khi nhãn sai, các ca thao tác có thể báo lỗi tổng ngay cả khi số tiền đúng. Đã dùng assertion riêng cho số tiền trong vùng tổng giỏ ở FR07-05, FR07-06, FR07-10 và FR07-11. FR07-13 kiểm cả nhãn lẫn số tiền bằng hai assertion độc lập.
+- FR-07 và FR-24 yêu cầu hình minh họa thuộc trạng thái giỏ trống. FR07-02 và FR07-12 tìm hình hiển thị trong vùng chứa thông báo giỏ trống và loại biểu tượng nằm trong nút hoặc liên kết.
 
 #### Ca chưa tự động hóa và lý do
 
@@ -237,9 +238,9 @@ Mỗi dòng tương ứng với một lượt chạy. Các lượt chưa thực 
 | FR-06 | Chromium | 15 | 10 | 5 | [HTML](reports/fr-06/after-assertion-review/chromium/index.html) |
 | FR-06 | Firefox | 15 | 10 | 5 | [HTML](reports/fr-06/after-assertion-review/firefox/index.html) |
 | FR-06 | WebKit | 15 | 10 | 5 | [HTML](reports/fr-06/after-assertion-review/webkit/index.html) |
-| FR-07 | Chromium | 15 | 4 | 11 | [HTML](reports/fr-07/chromium/index.html) |
-| FR-07 | Firefox | 15 | 4 | 11 | [HTML](reports/fr-07/firefox/index.html) |
-| FR-07 | WebKit | 15 | 4 | 11 | [HTML](reports/fr-07/webkit/index.html) |
+| FR-07 | Chromium | 15 | 4 | 11 | [HTML](reports/fr-07/after-assertion-review/chromium/index.html) |
+| FR-07 | Firefox | 15 | 4 | 11 | [HTML](reports/fr-07/after-assertion-review/firefox/index.html) |
+| FR-07 | WebKit | 15 | 4 | 11 | [HTML](reports/fr-07/after-assertion-review/webkit/index.html) |
 | FR-14 | Chromium | 18 | 12 | 6 | [HTML](reports/fr-14/full-after-review/chromium/index.html) |
 | FR-14 | Firefox | 18 | 12 | 6 | [HTML](reports/fr-14/full-after-review/firefox/index.html) |
 | FR-14 | WebKit | 18 | 12 | 6 | [HTML](reports/fr-14/full-after-review/webkit/index.html) |
