@@ -389,3 +389,65 @@ Mình sẽ chạy lại đủ 18 ca FR-14 trên ba trình duyệt với bản s�
 
 Đã ghi lượt 14 vào `prompt_log.md`.
 ```
+
+## 15
+
+Tool: OpenAI Codex
+
+Thời gian: 16/11/2026 22:15:14 (UTC+07:00)
+
+### Prompt
+
+```text
+đọc script và 3 html fr-06, rà fr06-11 đến 14 theo srs, báo ca nào cần sửa và vì sao
+
+```
+
+### Output
+
+```text
+Mình sẽ đối chiếu FR06-11 đến FR06-14 với SRS, rồi mở từng báo cáo HTML để xem các ca đã thất bại ở bước nào trên ba trình duyệt.
+
+
+**Cả bốn ca FR06-11 đến FR06-14 cần sửa phần kiểm tra. Ưu tiên FR06-11** vì Firefox báo đạt nhưng báo cáo chưa chứng minh số 0 bị từ chối. SRS yêu cầu số lượng là số nguyên dương, tối thiểu 1.
+
+| Ca | Kết quả từ ba báo cáo HTML | Điểm cần sửa |
+| --- | --- | --- |
+| FR06-11 · `0` | Chromium và WebKit thêm một dòng số lượng 0. Firefox bấm hai lần, thấy giỏ trống và báo đạt. | Xác nhận ô thực sự giữ 0 hoặc có bằng chứng form chặn hay sửa giá trị. Giỏ trống trên Firefox chưa đủ để kết luận kiểm tra đầu vào hoạt động. |
+| FR06-12 · `-1` | Cả ba thêm một dòng số lượng −1, thành tiền âm. | Xác nhận ô giữ −1 trước khi thử thêm, rồi kiểm có tín hiệu từ chối và giỏ giữ nguyên. |
+| FR06-13 · `1.5` | Cả ba thêm một dòng số lượng 1. Mã SUT dùng `parseInt`. | Phân biệt ô sửa giá trị thành số nguyên trước khi thêm với việc SUT âm thầm cắt phần thập phân khi thêm. |
+| FR06-14 · rỗng | Cả ba thêm một dòng có số lượng `NaN`. | Xác nhận ô vẫn rỗng ngay trước khi thử thêm, rồi kiểm thao tác bị chặn và giỏ giữ nguyên. |
+
+[Script hiện tại](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/tests/fr-06.spec.ts:129>) có thể kết thúc sớm khi đọc được số nguyên dương. Cần xác nhận đó là kết quả chặn hoặc sửa giá trị quan sát được. Nếu dùng lần bấm thứ hai để tái hiện lỗi SUT bỏ qua lần đầu, nên ghi rõ đây là bước chẩn đoán. Giữ assertion giỏ không có dòng P1 để bắt việc dữ liệu sai vẫn lọt vào giỏ.
+
+Đã ghi lượt 15 vào `prompt_log.md`. Đây là kết quả rà soát, chưa sửa script hay chạy lại bộ test.
+```
+
+## 16
+
+Tool: OpenAI Codex
+
+Thời gian: 16/11/2026 22:28:43 (UTC+07:00)
+
+### Prompt
+
+```text
+sửa fr06-11 đến 14 theo srs, nhập 0, -1, 1.5 hoặc để trống, thử thêm đúng một lần, kiểm dữ liệu không hợp lệ không được thêm vào giỏ. ko bấm lần hai, ko yêu cầu thông báo lỗi. chạy lại 3 trình duyệt, cập nhật report và log, commit riêng. ko sửa sut.
+
+```
+
+### Output
+
+```text
+Mình sẽ sửa bốn ca để xác nhận giá trị đã nhập, bấm thêm đúng một lần rồi kiểm giỏ. Sau đó mình sẽ chạy lại đủ 15 ca FR-06 trên ba trình duyệt và commit riêng phần sửa.
+
+
+Chromium đã chạy đúng luồng một lần bấm và cả bốn ca đều đạt. Trong báo cáo mình sẽ ghi rõ giới hạn của kết quả này: SUT hiện bỏ qua lần bấm đầu, nên giỏ trống chưa chứng minh bộ kiểm tra số lượng đã hoạt động.
+
+
+Đã sửa FR06-11 đến FR06-14. Mỗi ca xác nhận giá trị `0`, `-1`, `1.5` hoặc rỗng, bấm thêm đúng một lần rồi kiểm tra P1 không có trong giỏ. Ca kiểm thử không yêu cầu thông báo lỗi.
+
+Cả bốn ca đều đạt. Mỗi trình duyệt chạy đủ **15 ca, 10 đạt và 5 không đạt**. Kết quả của bốn ca chỉ xác nhận giỏ giữ nguyên sau một lần bấm, vì SUT hiện bỏ qua lần bấm đầu.
+
+Đã cập nhật bảng chính trong [Report.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/Report.md>), ghi lượt 16 vào `prompt_log.md` và commit riêng với thông điệp `Check invalid FR-06 quantities with one add click`. Mã SUT được giữ nguyên.
+```

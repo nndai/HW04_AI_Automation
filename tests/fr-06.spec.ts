@@ -130,22 +130,9 @@ for (const { id, label, value } of quantities.invalid) {
   test(`${id} từ chối số lượng không hợp lệ: ${label}`, async ({ page }) => {
     await openProduct(page, P1);
     const quantity = page.getByRole('spinbutton');
-    const add = addButton(page);
-    const positiveInteger = /^[1-9]\d*$/;
     await quantity.fill(value);
-
-    if (positiveInteger.test(await quantity.inputValue())) {
-      await expect(quantity).toHaveValue(positiveInteger);
-      return;
-    }
-
-    if (await add.isEnabled()) {
-      await add.click();
-      // SUT hiện bỏ qua cú bấm đầu. Nếu giá trị vẫn sai, thử đường xử lý tiếp theo.
-      if (!positiveInteger.test(await quantity.inputValue()) && await add.isEnabled()) {
-        await add.click();
-      }
-    }
+    await expect(quantity).toHaveValue(value);
+    await addButton(page).click();
     await openCart(page);
     await expect(cartRow(page, P1)).toHaveCount(0);
   });
