@@ -165,11 +165,42 @@ Dùng P1 và P2 từ dữ liệu mẫu của SUT. Đơn giá tương ứng là 3
 
 #### Đối chiếu SRS và SUT
 
+- FR-14 yêu cầu quản trị viên thêm, xem, xóa danh mục và bắt buộc có tên. Phần mô tả FR-14 chỉ liệt kê ba thao tác này. Ca sửa dùng hợp đồng `PUT /api/categories/:id` ở đặc tả API mục 3.4. Kiểm tra dữ liệu sau khi sửa bằng bảng danh mục trên web admin. [SRS EShop](../eshop-sut/README.md) · [Đặc tả API](../eshop-sut/api_specification.md)
+- FR-12 yêu cầu vai trò admin để vào web admin và yêu cầu JWT hợp lệ thuộc vai trò admin cho POST, PUT, DELETE danh mục. GET danh mục phục vụ đọc dữ liệu nên các ca giới hạn quyền đọc kiểm tra giao diện admin. [SRS EShop](../eshop-sut/README.md)
+- Web admin có bảng danh mục, form thêm và nút xóa trên từng dòng. Chức năng sửa hiện có ở API. POST và PUT chuyển tên từ request vào SQLite, còn middleware JWT của nhóm route ghi chỉ xác minh token. Kiểm tra thực thi sẽ đối chiếu các hành vi này với SRS và hợp đồng API. [Giao diện admin](../eshop-sut/frontend-admin/src/App.jsx) · [Mã backend](../eshop-sut/backend/server.js)
+
 #### Danh sách ca kiểm thử
+
+| ID | Dữ liệu | Bước chạy | Kết quả mong đợi | Căn cứ | Assertion Playwright dự kiến |
+| --- | --- | --- | --- | --- | --- |
+| FR14-01 | Admin, dữ liệu mẫu Điện thoại, Laptop, Phụ kiện | Đăng nhập web admin, chọn Danh mục và xem bảng. | Trang Quản lý Danh mục hiển thị ba danh mục mẫu, mỗi mục một dòng có ID. | FR-14 xem danh mục | `toBeVisible` cho tiêu đề và từng dòng, `toHaveCount(1)` theo tên và `toHaveText` cho ID tương ứng. |
+| FR14-02 | Admin, tên mới `<prefix> Thiết bị học tập` | Mở Danh mục, nhập tên và bấm Thêm mới một lần. | Danh mục mới xuất hiện đúng một dòng, với tên đã nhập và một ID. | FR-14 thêm danh mục | `toHaveCount(1)` và `toHaveText` cho tên, kiểm ô ID có giá trị. |
+| FR14-03 | Admin, danh mục thử đã tạo và ID của nó | Mở Danh mục, tải lại web admin rồi mở lại tab Danh mục. | Danh mục vẫn có cùng ID và tên sau khi tải lại. | FR-14 thêm và xem danh mục đã lưu | `toHaveCount(1)` và `toHaveText` trên dòng được xác định bằng ID. |
+| FR14-04 | Admin, danh mục A và B có ID riêng, tên mới cho A | Gửi PUT danh mục A bằng JWT admin, sau đó mở bảng Danh mục. | PUT thành công. A giữ ID và hiển thị tên mới, B giữ nguyên. | Hợp đồng API 3.4 sửa, FR-14 xem | `toBeOK` cho PUT và `toHaveText` cho tên của A và B theo ID. |
+| FR14-05 | Admin, tên trống `""` | Ghi lại danh sách hiện có, để trống tên và bấm Thêm mới. | Form chặn thao tác hoặc máy chủ từ chối. Danh sách lưu giữ nguyên và không có dòng mới. | FR-14 tên bắt buộc | Kiểm ô ở trạng thái invalid hoặc phản hồi từ chối, rồi `toEqual` với danh sách trước khi bấm. |
+| FR14-06 | Admin, tên gồm ba dấu cách | Nhập ba dấu cách vào form và bấm Thêm mới. | Tên không có ký tự hiển thị được xem là trống. Không có danh mục mới sau khi gửi. | FR-14 tên bắt buộc, diễn giải tên chỉ có khoảng trắng | Dùng `toHaveValue` để xác minh dữ liệu nhập nếu ô giữ nguyên rồi `toEqual` để so danh sách sau thao tác với dữ liệu trước. |
+| FR14-07 | Admin, danh mục A có sẵn, tên sửa `""` | Gửi PUT với tên rỗng rồi đọc lại A theo ID. | API từ chối yêu cầu và tên gốc của A giữ nguyên. | FR-14 tên bắt buộc, hợp đồng API 3.4 sửa | Mã phản hồi thuộc 4xx và tên đọc lại `toBe` tên gốc. |
+| FR14-08 | Admin, danh mục thử A và B không có sản phẩm | Trên bảng, bấm Xóa ở dòng A, hoàn tất xác nhận nếu giao diện có hỏi, rồi tải lại và mở tab Danh mục. | A biến mất và vẫn vắng mặt sau khi tải lại, B còn nguyên ID và tên. | FR-14 xóa và xem | `toHaveCount(0)` cho A sau thao tác và sau tải lại, `toHaveText` cho B theo ID. |
+| FR14-09 | Context mới, khách chưa đăng nhập | Mở trực tiếp web admin. | Màn hình đăng nhập xuất hiện. Khách chưa thấy bảng và thao tác quản lý danh mục. | FR-12 quyền vào web admin | `toBeVisible` cho form đăng nhập và `toHaveCount(0)` cho tiêu đề quản lý cùng nút Thêm mới. |
+| FR14-10 | Tài khoản mẫu có vai trò user | Đăng nhập trên web admin bằng tài khoản user hợp lệ. | Bị từ chối quyền admin và giao diện quản lý danh mục không xuất hiện. | FR-12 vai trò admin | Kiểm phản hồi từ chối qua dialog hoặc nội dung trang, rồi `toBeVisible` cho form đăng nhập và `toHaveCount(0)` cho giao diện danh mục. |
+| FR14-11 | Không gửi JWT, tên mới hợp lệ | Gửi POST danh mục, sau đó đối chiếu danh sách bằng phiên admin. | Yêu cầu bị từ chối và tên mới không tồn tại. | FR-12 JWT bắt buộc cho POST | Mã phản hồi thuộc 4xx và danh sách sau `toEqual` danh sách trước. |
+| FR14-12 | JWT sai định dạng, danh mục thử A có sẵn | Gửi DELETE A với JWT sai, sau đó đọc lại danh mục. | Yêu cầu bị từ chối và A vẫn còn với ID và tên cũ. | FR-12 JWT hợp lệ cho DELETE | Mã phản hồi thuộc 4xx và đối tượng A đọc lại `toEqual` đối tượng gốc. |
+| FR14-13 | JWT hợp lệ của user, tên mới hợp lệ | Dùng JWT user gửi POST rồi đối chiếu danh sách bằng phiên admin. | Yêu cầu bị từ chối vì thiếu vai trò admin và danh sách không đổi. | FR-12 vai trò admin cho POST | Mã phản hồi thuộc 4xx và danh sách sau `toEqual` danh sách trước. |
+| FR14-14 | JWT hợp lệ của user, danh mục thử A, tên sửa hợp lệ | Dùng JWT user gửi PUT cho A rồi đọc lại A theo ID. | Yêu cầu bị từ chối và A vẫn giữ tên gốc. | FR-12 vai trò admin cho PUT | Mã phản hồi thuộc 4xx và đối tượng A đọc lại `toEqual` đối tượng gốc. |
+| FR14-15 | JWT hợp lệ của user, danh mục thử A không có sản phẩm | Dùng JWT user gửi DELETE cho A rồi đọc lại theo ID. | Yêu cầu bị từ chối và A vẫn tồn tại. | FR-12 vai trò admin cho DELETE | Mã phản hồi thuộc 4xx và đối tượng A đọc lại `toEqual` đối tượng gốc. |
+| FR14-16 | Admin, tên `Q` gồm đúng một ký tự, chưa có trong dữ liệu thử | Mở tab Danh mục, nhập `Q` vào ô Tên danh mục mới và bấm Thêm mới. | Tạo thành công một danh mục có ID và tên đúng là `Q`. Tên một ký tự đáp ứng yêu cầu tên không trống của SRS. | FR-14 thêm danh mục, tên bắt buộc | `toHaveValue('Q')` trước khi gửi, `toHaveCount(1)` cho dòng có ô tên khớp chính xác và `toHaveText` cho ô tên và ID. |
+| FR14-17 | Admin, hai tên khác nhau `<prefix> Sách` và `<prefix> Văn phòng phẩm` | Mở tab Danh mục, nhập và thêm tên thứ nhất. Khi dòng thứ nhất xuất hiện, nhập tên thứ hai trong cùng form rồi bấm Thêm mới. | Bảng hiển thị đúng một dòng cho mỗi tên. Hai dòng có ID riêng và tên thứ nhất vẫn giữ nguyên sau khi thêm tên thứ hai. | FR-14 thêm và xem danh mục | `toHaveCount(1)` và `toHaveText` cho từng dòng theo tên khớp chính xác, đối chiếu hai ID bằng `not.toBe`. |
+| FR14-18 | Admin, tên mới `<prefix> Đồ dùng học tập` | Thêm danh mục trên web admin, ghi nhận ID từ bảng. Chuyển sang Dashboard, xác nhận đã đổi tab, rồi quay lại Danh mục. | Danh mục vừa tạo vẫn xuất hiện đúng một dòng với cùng ID và tên. | FR-14 thêm và xem danh mục | `toBeVisible` cho tiêu đề Dashboard và Quản lý Danh mục ở từng bước, `toHaveCount(1)` cho dòng theo ID và `toHaveText` cho tên sau khi quay lại. |
 
 #### Cách hướng dẫn AI theo từng bước
 
+1. Đọc FR-14 và FR-12, đối chiếu trang Danh mục, các route và đặc tả API cho thao tác sửa.
+2. Chọn luồng tạo, xem, sửa, xóa, dữ liệu thiếu tên và kiểm soát quyền. Xác định kết quả mong đợi trước khi chọn assertion.
+3. Ghi điều kiện chuẩn bị, thao tác, kết quả mong đợi và kiểm tra tác động lên dữ liệu cho từng ca.
+
 #### Dữ liệu kiểm thử
+
+Dùng tài khoản admin và user mẫu của SUT theo đúng vai trò, mỗi ca giao diện có phiên riêng. Dùng tên thử phân biệt theo mã ca và lượt chạy. FR14-16 dùng đúng một ký tự và cần xác nhận tên đó chưa tồn tại trước khi bắt đầu. Với ca sửa hoặc xóa, tạo danh mục riêng bằng phiên admin và lưu ID từ phản hồi POST. Dọn dữ liệu thử theo ID sau khi kiểm tra để tránh ảnh hưởng các danh mục mẫu và các ca khác. Các ca so sánh nguyên danh sách chạy tuần tự để kết quả không bị nhiễu bởi thao tác ghi đồng thời.
 
 #### Assertion sử dụng
 

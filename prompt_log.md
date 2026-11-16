@@ -252,3 +252,57 @@ Mỗi trình duyệt chạy đủ 15 ca, **4 đạt và 11 không đạt**. Cả
 
 Đã cập nhật `Report.md` và `prompt_log.md`, rồi commit riêng với thông điệp `Separate FR-07 total assertions and refresh browser reports`. Lượt chạy dùng cổng 5175 vì EngDrill đang dùng 5173. Không sửa mã SUT.
 ```
+
+## 10
+
+Tool: OpenAI Codex
+
+Thời gian: 16/11/2026 19:08:19 (UTC+07:00)
+
+### Prompt
+
+```text
+đọc srs và code fr-14, thêm ít nhất 12 ca vào report, bao phủ thêm, xem, sửa, xóa, dữ liệu sai và quyền truy cập theo srs. mỗi ca ghi id, dữ liệu, bước chạy, expected và assertion.
+
+```
+
+### Output
+
+```text
+Mình sẽ đối chiếu SRS với giao diện và API quản lý danh mục, rồi thêm bảng ca FR-14 vào `Report.md` với dữ liệu, bước chạy, expected và assertion cho từng ca.
+
+
+Đã thêm **15 ca FR-14** vào [Report.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/Report.md>), bao phủ thêm, xem, sửa, xóa, tên rỗng hoặc chỉ có khoảng trắng, và quyền truy cập theo FR-12. Mỗi ca có ID, dữ liệu, bước chạy, kết quả mong đợi, căn cứ và assertion dự kiến.
+
+SRS FR-14 liệt kê thêm, xem và xóa. Ca sửa dựa trên hợp đồng `PUT /api/categories/:id` và đối chiếu kết quả trên bảng danh mục web admin.
+
+Đã ghi lượt 10 vào `prompt_log.md`. Bước này dừng ở thiết kế ca, chưa viết script, chạy test hay commit.
+```
+
+## 11
+
+Tool: OpenAI Codex
+
+Thời gian: 16/11/2026 19:30:24 (UTC+07:00)
+
+### Prompt
+
+```text
+thêm 3 test web fr-14, tạo tên một ký tự, tạo hai danh mục khác tên liên tiếp, đổi tab rồi quay lại kiểm danh mục vừa tạo
+
+```
+
+### Output
+
+```text
+Mình sẽ thêm ba ca web vào bảng FR-14 trong `Report.md`, tiếp nối các ca đã thiết kế.
+
+
+Đã bổ sung 3 ca web vào [Report.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/Report.md>), nâng tổng số ca FR-14 lên **18**.
+
+- **FR14-16** tạo danh mục có tên đúng một ký tự.
+- **FR14-17** tạo liên tiếp hai danh mục khác tên và xác nhận cả hai có ID riêng.
+- **FR14-18** tạo danh mục, chuyển sang Dashboard rồi quay lại để kiểm tra tên và ID vẫn giữ nguyên.
+
+Đã ghi lượt 11 vào `prompt_log.md`. Ba ca mới đang ở bước thiết kế.
+```
