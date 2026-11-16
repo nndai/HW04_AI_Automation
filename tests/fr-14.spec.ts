@@ -1,4 +1,4 @@
-import { expect, test as base, type APIRequestContext, type Page, type TestInfo } from '@playwright/test';
+import { expect, test as base, type APIRequestContext, type Page, type Request, type TestInfo } from '@playwright/test';
 import { randomUUID } from 'node:crypto';
 import data from '../data/fr-14.json';
 
@@ -98,11 +98,12 @@ async function openAsAdmin(page: Page) {
   await openCategories(page);
 }
 
+function isCategoryCreate(request: Request) {
+  return request.url() === categoriesUrl && request.method() === 'POST';
+}
+
 function waitForCreate(page: Page, timeout?: number) {
-  return page.waitForResponse(
-    response => response.url() === categoriesUrl && response.request().method() === 'POST',
-    { timeout },
-  );
+  return page.waitForResponse(response => isCategoryCreate(response.request()), { timeout });
 }
 
 async function assertCategory(page: Page, id: number, name: string) {
@@ -167,18 +168,37 @@ for (const [id, label, name] of [
   test(`${id} từ chối thêm danh mục với ${label}`, async ({ page, catalog }) => {
     const before = await catalog.list();
     await openAsAdmin(page);
-    await nameInput(page).fill(name);
-    await expect(nameInput(page)).toHaveValue(name);
-    const [response] = await Promise.all([
-      waitForCreate(page, 2500).catch(error => {
-        if (error.name !== 'TimeoutError') throw error;
-        return null;
-      }),
-      addButton(page).click(),
-    ]);
-    if (response) {
-      await catalog.trackCreation(response);
-      expectRejected(response.status());
+    const input = nameInput(page);
+    const submit = addButton(page);
+    await input.fill(name);
+    await expect(input).toHaveValue(name);
+    if (await submit.isDisabled()) {
+      await expect(submit).toBeDisabled();
+    } else {
+      let postSent = false;
+      const observePost = (request: Request) => { postSent ||= isCategoryCreate(request); };
+      page.on('request', observePost);
+      try {
+        const [response] = await Promise.all([
+          waitForCreate(page, 5000).catch(error => {
+            if (error.name !== 'TimeoutError') throw error;
+            return null;
+          }),
+          submit.click(),
+        ]);
+        if (response) {
+          expect(await response.finished(), 'POST danh mục phải hoàn tất').toBeNull();
+          await catalog.trackCreation(response);
+          expectRejected(response.status());
+        } else {
+          expect(postSent, 'POST đã gửi nhưng chưa nhận phản hồi').toBe(false);
+          const invalid = await input.evaluate(element =>
+            element.matches(':invalid') || element.getAttribute('aria-invalid') === 'true');
+          expect(invalid || await submit.isDisabled(), 'Form phải có dấu hiệu chặn tên không hợp lệ').toBe(true);
+        }
+      } finally {
+        page.off('request', observePost);
+      }
     }
     expect(await catalog.list()).toEqual(before);
   });

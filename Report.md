@@ -177,8 +177,8 @@ Dùng P1 và P2 từ dữ liệu mẫu của SUT. Đơn giá tương ứng là 3
 | FR14-02 | Admin, tên mới `<prefix> Thiết bị học tập` | Mở Danh mục, nhập tên và bấm Thêm mới một lần. | Danh mục mới xuất hiện đúng một dòng, với tên đã nhập và một ID. | FR-14 thêm danh mục | `toHaveCount(1)` và `toHaveText` cho tên, kiểm ô ID có giá trị. |
 | FR14-03 | Admin, danh mục thử đã tạo và ID của nó | Mở Danh mục, tải lại web admin rồi mở lại tab Danh mục. | Danh mục vẫn có cùng ID và tên sau khi tải lại. | FR-14 thêm và xem danh mục đã lưu | `toHaveCount(1)` và `toHaveText` trên dòng được xác định bằng ID. |
 | FR14-04 | Admin, danh mục A và B có ID riêng, tên mới cho A | Gửi PUT danh mục A bằng JWT admin, sau đó mở bảng Danh mục. | PUT thành công. A giữ ID và hiển thị tên mới, B giữ nguyên. | Hợp đồng API 3.4 sửa, FR-14 xem | `toBeOK` cho PUT và `toHaveText` cho tên của A và B theo ID. |
-| FR14-05 | Admin, tên trống `""` | Ghi lại danh sách hiện có, để trống tên và bấm Thêm mới. | Form chặn thao tác hoặc máy chủ từ chối. Danh sách lưu giữ nguyên và không có dòng mới. | FR-14 tên bắt buộc | Kiểm ô ở trạng thái invalid hoặc phản hồi từ chối, rồi `toEqual` với danh sách trước khi bấm. |
-| FR14-06 | Admin, tên gồm ba dấu cách | Nhập ba dấu cách vào form và bấm Thêm mới. | Tên không có ký tự hiển thị được xem là trống. Không có danh mục mới sau khi gửi. | FR-14 tên bắt buộc, diễn giải tên chỉ có khoảng trắng | Dùng `toHaveValue` để xác minh dữ liệu nhập nếu ô giữ nguyên rồi `toEqual` để so danh sách sau thao tác với dữ liệu trước. |
+| FR14-05 | Admin, tên trống `""` | Ghi lại danh sách, để trống tên rồi thử thêm. Xác nhận form chặn hoặc chờ POST hoàn tất trước khi đọc lại danh sách. | Form chặn hoặc máy chủ trả 4xx. Danh sách lưu giữ nguyên. | FR-14 tên bắt buộc | `toHaveValue` cho đầu vào. Xác nhận nút bị vô hiệu hóa hoặc trạng thái invalid khi không gửi POST. Nếu có POST, dùng `toBeNull` cho lỗi hoàn tất và kiểm mã 4xx. Cuối cùng dùng `toEqual` so danh sách. |
+| FR14-06 | Admin, tên gồm ba dấu cách | Ghi lại danh sách, nhập ba dấu cách rồi thử thêm. Xác nhận form chặn hoặc chờ POST hoàn tất trước khi đọc lại danh sách. | Tên chỉ có khoảng trắng bị từ chối và danh sách lưu giữ nguyên. | FR-14 tên bắt buộc, diễn giải tên chỉ có khoảng trắng | `toHaveValue` cho ba dấu cách, sau đó dùng cùng các assertion xác nhận form chặn hoặc POST từ chối như FR14-05 và `toEqual` so danh sách. |
 | FR14-07 | Admin, danh mục A có sẵn, tên sửa `""` | Gửi PUT với tên rỗng rồi đọc lại A theo ID. | API từ chối yêu cầu và tên gốc của A giữ nguyên. | FR-14 tên bắt buộc, hợp đồng API 3.4 sửa | Mã phản hồi thuộc 4xx và tên đọc lại `toBe` tên gốc. |
 | FR14-08 | Admin, danh mục thử A và B không có sản phẩm | Trên bảng, bấm Xóa ở dòng A, hoàn tất xác nhận nếu giao diện có hỏi, rồi tải lại và mở tab Danh mục. | A biến mất và vẫn vắng mặt sau khi tải lại, B còn nguyên ID và tên. | FR-14 xóa và xem | `toHaveCount(0)` cho A sau thao tác và sau tải lại, `toHaveText` cho B theo ID. |
 | FR14-09 | Context mới, khách chưa đăng nhập | Mở trực tiếp web admin. | Màn hình đăng nhập xuất hiện. Khách chưa thấy bảng và thao tác quản lý danh mục. | FR-12 quyền vào web admin | `toBeVisible` cho form đăng nhập và `toHaveCount(0)` cho tiêu đề quản lý cùng nút Thêm mới. |
@@ -216,6 +216,9 @@ Dùng tài khoản admin và user mẫu của SUT theo đúng vai trò, mỗi ca
 
 #### Rà soát script AI, nguyên nhân thiếu sót và cách sửa
 
+- **Thiếu sót ở FR14-05/06.** Bản AI dùng hết thời gian chờ phản hồi làm căn cứ đi tiếp. Khi POST chậm hoặc form không có dấu hiệu xác thực, ca có thể đọc danh sách quá sớm và kết luận sai rằng dữ liệu giữ nguyên.
+- **Cách sửa.** Theo dõi yêu cầu POST và chờ phản hồi hoàn tất trước khi so dữ liệu. Nếu không nhận phản hồi, ca xác nhận chưa có POST và form đã chặn qua trạng thái invalid hoặc nút vô hiệu hóa. POST đang chờ hoặc việc thiếu dấu hiệu chặn khiến ca thất bại.
+
 #### Ca chưa tự động hóa và lý do
 
 ## 5. Kết quả thực thi đa trình duyệt
@@ -243,6 +246,8 @@ Mỗi dòng tương ứng với một lượt chạy. Các lượt chưa thực 
 Trong cả ba lượt FR-07, FR07-13 thấy số tiền 58.000.000 ₫ đúng. Ca vẫn không đạt vì nhãn hiển thị “Tổng tạm tính”.
 
 FR-14 có cùng sáu ca không đạt trên cả ba trình duyệt. FR14-05, FR14-06 và FR14-07 ghi nhận tên rỗng hoặc chỉ có khoảng trắng vẫn được lưu. FR14-13, FR14-14 và FR14-15 ghi nhận JWT của user nhận HTTP 200 và làm thay đổi dữ liệu khi thêm, sửa hoặc xóa.
+
+Chạy lại riêng FR14-05/06 sau khi sửa đồng bộ. Cả hai ca đều không đạt trên từng trình duyệt vì POST hoàn tất với HTTP 200 và danh sách có thêm bản ghi. Kết quả chạy lại hai ca được ghi riêng với bảng chạy toàn bộ. [Chromium](reports/fr-14/recheck-05-06/chromium/index.html) · [Firefox](reports/fr-14/recheck-05-06/firefox/index.html) · [WebKit](reports/fr-14/recheck-05-06/webkit/index.html)
 
 Mỗi lượt chạy phải có một báo cáo HTML riêng. Báo cáo phải hiển thị `Run by: {StudentID}` với MSSV thật và dấu thời gian chạy theo định dạng ISO 8601.
 

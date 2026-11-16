@@ -337,3 +337,29 @@ Mỗi trình duyệt chạy đủ **18 ca, 12 đạt và 6 không đạt**. Các
 
 Đã cập nhật `Report.md` và ghi lượt 12 vào `prompt_log.md`. Phần FR-14 chưa commit.
 ```
+
+## 13
+
+Tool: OpenAI Codex
+
+Thời gian: 16/11/2026 19:40:11 (UTC+07:00)
+
+### Prompt
+
+```text
+commit, sau đó sửa fr14-05/06: xác nhận form chặn hoặc chờ post xong rồi mới so dữ liệu, chạy test, cập nhật report, ghi lỗi ai và cách sửa
+
+```
+
+### Output
+
+```text
+Mình sẽ commit bộ FR-14 hiện tại trước, rồi sửa hai ca để xác nhận form chặn hoặc chờ POST hoàn tất trước khi so dữ liệu. Sau khi chạy lại, mình sẽ cập nhật kết quả và ghi phần rà soát lỗi AI.
+
+
+Đã commit bộ FR-14 ban đầu ở `8cd8861`, rồi sửa FR14-05/06. Hai ca giờ xác nhận form chặn hoặc đợi POST hoàn tất trước khi so danh sách danh mục.
+
+Chạy lại trên Chromium, Firefox và WebKit, cả hai ca đều không đạt trên mỗi trình duyệt. SUT trả HTTP 200 và lưu cả tên rỗng lẫn tên chỉ có khoảng trắng.
+
+Đã cập nhật [Report.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/Report.md>) với liên kết các lượt chạy lại, lỗi trong script AI và cách sửa. Lượt 13 đã được ghi vào `prompt_log.md`. Phần sửa sau commit vẫn chưa commit.
+```
