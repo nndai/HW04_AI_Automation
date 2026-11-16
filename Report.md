@@ -59,7 +59,7 @@ Mỗi ca mở một browser context mới, bắt đầu với khách chưa đăn
 | --- | --- | --- | --- | --- | --- |
 | FR06-01 | P1, mở từ trang chủ | Mở trang chủ và chọn liên kết `Xem chi tiết` trong thẻ sản phẩm P1. | Mở đúng trang và có đúng một tiêu đề H1 mang tên P1. | FR-06 tên, FR-21 tiêu đề | `toHaveURL` đúng đường dẫn, `toHaveCount(1)` trên H1, `toHaveText` tên P1. |
 | FR06-02 | P1, ảnh seed | Mở chi tiết ở viewport desktop, tìm ảnh sản phẩm trong nội dung chính. | Ảnh đúng sản phẩm hiển thị ở vùng ảnh chi tiết và có dữ liệu ảnh tải được. | FR-06 ảnh lớn | `toBeVisible`, `toHaveAttribute('src', expectedImage)`, `expect.poll` kiểm tra `naturalWidth > 0`. Quan sát vùng ảnh chính ở desktop, không áp ngưỡng pixel vì SRS không định lượng. |
-| FR06-03 | P2, tên sản phẩm | Mở chi tiết P2 và kiểm tra tên truy cập của ảnh. | Alt mô tả đúng sản phẩm. | FR-24 văn bản alt | `toHaveAttribute('alt', expectedName)` trên ảnh sản phẩm. |
+| FR06-03 | P2, ảnh sản phẩm | Mở chi tiết P2 và kiểm tra thuộc tính alt của ảnh. | Alt không rỗng và mô tả nội dung ảnh. | FR-24 văn bản alt | `toHaveAttribute('alt', /\S/)` kiểm có ký tự khác khoảng trắng. Nội dung mô tả cần được đối chiếu với ảnh khi rà soát thủ công. |
 | FR06-04 | P1, giá kiểu số | Mở chi tiết P1 và đọc giá. | Hiển thị đúng `30.000.000 ₫`. | FR-06 giá, FR-21 định dạng tiền | `toBeVisible` trên văn bản giá khớp chính xác trong `main`. |
 | FR06-05 | P2, API trả giá kiểu chuỗi | Mở chi tiết P2 và đọc giá. | Hiển thị đúng `28.000.000 ₫`. | FR-06 giá, FR-21 định dạng tiền | `toBeVisible` trên văn bản giá khớp chính xác trong `main`. |
 | FR06-06 | P2, mô tả từ seed | Mở chi tiết P2 và đọc mô tả. | Hiển thị đúng mô tả của P2. | FR-06 mô tả | `toBeVisible` trên mô tả khớp chính xác trong `main`. |
@@ -75,6 +75,7 @@ Mỗi ca mở một browser context mới, bắt đầu với khách chưa đăn
 
 #### Ghi chú khi chuyển thành script
 
+- FR-24 yêu cầu alt mô tả ảnh và không rỗng. SRS không quy định alt phải trùng nguyên văn tên sản phẩm. FR06-03 tự động kiểm phần không rỗng.
 - FR06-11 đến FR06-14 bấm thêm đúng một lần và kiểm giỏ không có P1. SUT hiện bỏ qua lần bấm đầu, nên kết quả đạt cho bốn ca này chỉ xác nhận giỏ giữ nguyên sau một lần bấm. FR06-09 và FR06-10 kiểm riêng phản hồi và việc thêm số lượng hợp lệ.
 - Kiểm tra giỏ bằng điều hướng nội bộ để giữ trạng thái React. Các ca dùng giỏ làm điểm quan sát hậu quả của thao tác trong FR-06.
 - FR06-02 phụ thuộc ảnh seed ở máy chủ ngoài. Ghi nhận riêng lỗi tải từ nguồn ngoài khi phân tích kết quả.
@@ -233,9 +234,9 @@ Mỗi dòng tương ứng với một lượt chạy. Các lượt chưa thực 
 
 | Tính năng | Trình duyệt | Số ca chạy | Đạt | Lỗi | Liên kết HTML |
 | --- | --- | --- | --- | --- | --- |
-| FR-06 | Chromium | 15 | 10 | 5 | [HTML](reports/fr-06/single-click/chromium/index.html) |
-| FR-06 | Firefox | 15 | 10 | 5 | [HTML](reports/fr-06/single-click/firefox/index.html) |
-| FR-06 | WebKit | 15 | 10 | 5 | [HTML](reports/fr-06/single-click/webkit/index.html) |
+| FR-06 | Chromium | 15 | 10 | 5 | [HTML](reports/fr-06/after-assertion-review/chromium/index.html) |
+| FR-06 | Firefox | 15 | 10 | 5 | [HTML](reports/fr-06/after-assertion-review/firefox/index.html) |
+| FR-06 | WebKit | 15 | 10 | 5 | [HTML](reports/fr-06/after-assertion-review/webkit/index.html) |
 | FR-07 | Chromium | 15 | 4 | 11 | [HTML](reports/fr-07/chromium/index.html) |
 | FR-07 | Firefox | 15 | 4 | 11 | [HTML](reports/fr-07/firefox/index.html) |
 | FR-07 | WebKit | 15 | 4 | 11 | [HTML](reports/fr-07/webkit/index.html) |

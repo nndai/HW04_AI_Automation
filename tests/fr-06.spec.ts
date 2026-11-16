@@ -58,9 +58,9 @@ test('FR06-02 hiển thị ảnh chi tiết đúng và tải được', async ({
     { message: 'Ảnh chi tiết phải tải được', timeout: 10000 }).toBeGreaterThan(0);
 });
 
-test('FR06-03 ảnh có alt mô tả sản phẩm', async ({ page }) => {
+test('FR06-03 ảnh sản phẩm có alt không rỗng', async ({ page }) => {
   await openProduct(page, P2);
-  await expect(page.getByRole('main').getByRole('img')).toHaveAttribute('alt', P2.name);
+  await expect(page.getByRole('main').locator('img')).toHaveAttribute('alt', /\S/);
 });
 
 test('FR06-04 định dạng giá khi API trả số', async ({ page }) => {
