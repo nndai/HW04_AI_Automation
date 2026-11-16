@@ -4,10 +4,14 @@ import { resolve } from 'node:path';
 const sut = resolve(__dirname, '../eshop-sut');
 const storefront = 'http://localhost:5173';
 const admin = 'http://localhost:5174';
+const runTimestamp = new Date().toISOString();
 
 export default defineConfig({
   testDir: './tests',
-  reporter: [['list'], ['html', { open: 'never' }]],
+  reporter: [
+    ['list'],
+    ['html', { open: 'never', title: `Run by: 23120226 | ${runTimestamp}` }],
+  ],
   use: { baseURL: storefront },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },

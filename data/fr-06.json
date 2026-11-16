@@ -1,0 +1,58 @@
+{
+  "products": {
+    "P1": {
+      "path": "/product/1",
+      "name": "iPhone 15 Pro Max",
+      "price": "30.000.000 ₫",
+      "description": "Điện thoại cao cấp của Apple",
+      "category": "Điện thoại",
+      "image": "https://placehold.co/300x300/png?text=iPhone+15"
+    },
+    "P2": {
+      "path": "/product/2",
+      "name": "Samsung Galaxy S24 Ultra",
+      "price": "28.000.000 ₫",
+      "description": "Màn hình hiển thị xuất sắc, camera siêu zoom",
+      "category": "Điện thoại",
+      "image": "https://placehold.co/300x300/png?text=Samsung+S24"
+    },
+    "P3": {
+      "path": "/product/3",
+      "name": "MacBook Pro M3",
+      "price": "45.000.000 ₫",
+      "description": "Laptop chuyên nghiệp mạnh mẽ",
+      "category": "Laptop",
+      "image": "https://placehold.co/300x300/png?text=Macbook+Pro"
+    }
+  },
+  "quantities": {
+    "minimum": "1",
+    "multiple": "2",
+    "invalid": [
+      {
+        "id": "FR06-11",
+        "label": "số 0",
+        "value": "0"
+      },
+      {
+        "id": "FR06-12",
+        "label": "số âm",
+        "value": "-1"
+      },
+      {
+        "id": "FR06-13",
+        "label": "số thập phân",
+        "value": "1.5"
+      },
+      {
+        "id": "FR06-14",
+        "label": "giá trị rỗng",
+        "value": ""
+      }
+    ]
+  },
+  "badge": {
+    "afterFirst": "1",
+    "afterSecond": "2"
+  }
+}
