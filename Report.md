@@ -109,11 +109,38 @@ Mỗi ca chạy trong một browser context mới. Các ca số lượng sai dù
 
 #### Đối chiếu SRS và SUT
 
+- FR-07 quy định các cột trong giỏ, nút tăng/giảm, gộp sản phẩm trùng, xác nhận trước khi xóa, điều hướng mua tiếp, nhãn tổng tiền và trạng thái giỏ trống. FR-21 quy định định dạng tiền và FR-24 bổ sung yêu cầu về dialog và hình minh họa. [SRS EShop](../eshop-sut/README.md)
+- Khi đọc mã SUT, thấy giỏ hiện dùng cột “Giá” và nhãn “Tổng tạm tính”, hiển thị số lượng dạng chữ, xóa trực tiếp và chưa có hình minh họa khi trống. Hàm thêm tạo một dòng mới mỗi lần. Ghi nhận này dùng để chuẩn bị lượt chạy. Cột kết quả mong đợi trong bảng luôn theo SRS. [Cart.jsx](../eshop-sut/frontend-web/src/pages/Cart.jsx) · [CartContext.jsx](../eshop-sut/frontend-web/src/context/CartContext.jsx)
+
 #### Danh sách ca kiểm thử
+
+| ID | Dữ liệu | Thao tác | Kết quả mong đợi | Căn cứ SRS | Assertion Playwright dự kiến |
+| --- | --- | --- | --- | --- | --- |
+| FR07-01 | Giỏ trống | Mở giỏ trong context mới. | Giỏ hiển thị thông báo trống rõ ràng và không có dòng sản phẩm. | FR-07 giỏ trống, FR-24 trạng thái trống | `toBeVisible` cho thông báo trong nội dung chính và `toHaveCount(0)` cho dòng sản phẩm. |
+| FR07-02 | Giỏ trống | Mở giỏ và kiểm tra vùng thông báo trống. | Có biểu tượng hoặc hình minh họa hiển thị cùng thông báo trống. | FR-07 giỏ trống, FR-24 hình minh họa | `toBeVisible` cho ảnh hoặc biểu tượng trong vùng trạng thái trống. |
+| FR07-03 | P1 × 1 | Mở giỏ và đọc các tiêu đề cột. | Có lần lượt Sản phẩm, Đơn giá, Số lượng, Thành tiền và Thao tác. | FR-07 cột giỏ hàng | `toHaveText` trên danh sách `columnheader` với năm nhãn đúng thứ tự. |
+| FR07-04 | P1 × 1 | Mở giỏ và đọc dòng P1. | Dòng ghi đúng tên P1, đơn giá 30.000.000 ₫, số lượng 1 và thành tiền 30.000.000 ₫. | FR-07 dữ liệu dòng, FR-21 định dạng tiền | `toHaveText` trên từng ô của dòng được xác định theo tên P1. |
+| FR07-05 | P1 × 1 | Bấm nút tăng trên dòng P1. | Dòng P1 hiển thị số lượng 2, thành tiền và Tổng cộng đều bằng 60.000.000 ₫. | FR-07 chỉnh số lượng và tính tiền | `toHaveText` cho số lượng, thành tiền và giá trị Tổng cộng. |
+| FR07-06 | P1 × 2 trên một dòng | Bấm nút giảm trên dòng P1. | Vẫn có một dòng P1, số lượng giảm còn 1, thành tiền và Tổng cộng đều bằng 30.000.000 ₫. | FR-07 chỉnh số lượng và tính tiền | `toHaveCount(1)` cho dòng P1 và `toHaveText` cho số lượng, thành tiền và giá trị Tổng cộng. |
+| FR07-07 | Giỏ trống, P1 được thêm hai lần | Bấm thêm P1 hai lần tại trang chủ rồi mở giỏ. | Chỉ có một dòng P1, số lượng là 2. | FR-07 gộp sản phẩm trùng | `toHaveCount(1)` cho dòng P1 và `toHaveText('2')` tại ô số lượng của dòng đó. |
+| FR07-08 | P1 × 1, P2 × 1 | Mở giỏ và đọc danh sách dòng. | Hai sản phẩm khác nhau nằm ở hai dòng riêng, mỗi dòng có số lượng 1. | FR-07 danh sách sản phẩm | `toHaveCount(2)` cho dòng sản phẩm, `toBeVisible` cho từng dòng và `toHaveText('1')` cho hai ô số lượng. |
+| FR07-09 | P1 × 1 | Bấm Xóa trên dòng P1, chưa chọn tùy chọn trong dialog. | Dialog yêu cầu xác nhận xuất hiện trước khi giỏ bị thay đổi. | FR-07 xác nhận xóa, FR-24 dialog | Với modal, dùng `toBeVisible` cho dialog và xác nhận dòng P1 còn tồn tại. Với hộp xác nhận gốc, đợi sự kiện `dialog`, kiểm tra kiểu `confirm` và chọn hủy để kiểm tra dòng P1 vẫn còn. |
+| FR07-10 | P1 × 1, P2 × 1 | Bấm Xóa P1 rồi chọn hủy. | P1 và P2 vẫn còn, mỗi dòng số lượng 1 và tổng vẫn là 58.000.000 ₫. | FR-07 xác nhận trước khi xóa | `toBeVisible` cho hai dòng và `toHaveText` cho số lượng và giá trị tổng tiền. |
+| FR07-11 | P1 × 1, P2 × 1 | Bấm Xóa P1 rồi xác nhận. | Chỉ P1 bị xóa. P2 còn một dòng số lượng 1 và tổng còn 28.000.000 ₫. | FR-07 xóa đúng dòng và tính tiền | `toHaveCount(0)` cho dòng P1, `toHaveCount(1)` cho dòng P2 và `toHaveText` cho số lượng và giá trị tổng tiền. |
+| FR07-12 | P1 × 1 là dòng duy nhất | Bấm Xóa P1 rồi xác nhận. | Giỏ chuyển sang trạng thái trống, có thông báo và hình minh họa. | FR-07 xóa và giỏ trống, FR-24 trạng thái trống | `toHaveCount(0)` cho dòng sản phẩm và `toBeVisible` cho thông báo và hình minh họa. |
+| FR07-13 | P1 × 1, P2 × 1 | Mở giỏ và đọc nhãn giá trị tổng. | Nhãn hiển thị chính xác “Tổng cộng” và giá trị là 58.000.000 ₫. | FR-07 nhãn tổng tiền, FR-21 định dạng tiền | `toHaveText` cho nhãn và giá trị, giới hạn trong khu vực tổng giỏ. |
+| FR07-14 | Giỏ trống | Bấm Tiếp tục mua sắm từ trạng thái trống. | Điều hướng về trang chủ. | FR-07 tiếp tục mua sắm | `toBeVisible` cho điều khiển có nhãn và `toHaveURL('/')` sau khi bấm. |
+| FR07-15 | P1 × 1 | Bấm Tiếp tục mua sắm từ giỏ đang có sản phẩm. | Điều hướng về trang chủ. | FR-07 tiếp tục mua sắm | `toBeVisible` cho điều khiển có nhãn và `toHaveURL('/')` sau khi bấm. |
 
 #### Cách hướng dẫn AI theo từng bước
 
+1. Đọc từng yêu cầu FR-07, đối chiếu mã trang giỏ và quy tắc cập nhật giỏ.
+2. Tách ca theo trạng thái trống, dữ liệu dòng, thay đổi số lượng, gộp, xác nhận xóa, tổng tiền và điều hướng. Với mỗi ca, ghi rõ điều kiện ban đầu và kết quả theo SRS.
+3. Chọn các assertion dự kiến và xác định điều kiện cần kiểm tra trước khi thực hiện thao tác chính.
+
 #### Dữ liệu kiểm thử
+
+Dùng P1 và P2 từ bảng dữ liệu FR-06. Đơn giá tương ứng là 30.000.000 ₫ và 28.000.000 ₫. Mỗi ca bắt đầu với context mới và locale `vi-VN`. Với ca cần giỏ có sẵn một hoặc hai sản phẩm khác nhau, chuẩn bị bằng nút thêm trên trang chủ và mở giỏ qua liên kết nội bộ. FR07-06 yêu cầu xác nhận trước rằng P1 có một dòng với số lượng 2. Nếu SUT không đạt điều kiện đó, ghi nhận ca giảm bị chặn bởi bước chuẩn bị.
 
 #### Assertion sử dụng
 

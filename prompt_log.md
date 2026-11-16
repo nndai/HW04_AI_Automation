@@ -164,3 +164,30 @@ Mình sẽ sửa riêng FR06-15 để kiểm tra sản phẩm đã vào giỏ tr
 
 Chạy riêng trên Chromium, ca dừng đúng tại assertion đầu tiên bị lỗi: **P1 chưa có trong giỏ sau một lần bấm**. Ca chưa tới bước kiểm badge 1 hay thêm P2. Lượt 6 đã được ghi vào `prompt_log.md`.
 ```
+
+## 7
+
+Tool: OpenAI Codex
+
+Thời gian: 16/11/2026 17:04:04 (UTC+07:00)
+
+### Prompt
+
+```text
+cập nhật report, điền kết quả và link firefox, webkit, ghi lỗi ai ở fr06-15 và cách sửa. commit, sau đó thêm ít nhất 12 ca fr-07 theo srs. chưa viết test hay commit, ghi prompt/output vào log.
+
+```
+
+### Output
+
+```text
+Mình sẽ kiểm tra báo cáo Firefox và WebKit hiện có, chạy các lượt còn thiếu rồi cập nhật `Report.md` và commit phần FR-06. Sau đó mình sẽ thêm các ca FR-07 theo SRS và để phần này ở bản nháp chưa commit.
+
+
+Mình đã mở và xác minh các báo cáo HTML hiện có. Firefox đạt 7/15, WebKit đạt 6/15, và cả hai báo cáo đều có MSSV cùng timestamp ISO. Phần kết quả và rà soát FR06-15 đã được commit.
+
+
+Đã cập nhật [Report.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/Report.md>) với kết quả FR-06 và liên kết HTML. Firefox chạy 15 ca, đạt 7, lỗi 8. WebKit chạy 15 ca, đạt 6, lỗi 9. Phần rà soát ghi rõ bản AI của FR06-15 chỉ kiểm badge và dùng `expect.soft`, còn bản sửa kiểm tra sản phẩm trong giỏ trước và dừng tại assertion thất bại đầu tiên. Đã commit phần này ở `a941f14`.
+
+Sau commit, mình thêm **15 ca FR-07 theo SRS** vào mục 4.2, có dữ liệu, thao tác, kết quả mong đợi và assertion dự kiến. Phần FR-07 chưa có script và chưa commit. Lượt 7 đã được ghi nguyên văn vào `prompt_log.md`.
+```
