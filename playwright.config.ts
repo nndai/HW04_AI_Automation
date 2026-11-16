@@ -2,7 +2,8 @@ import { defineConfig, devices } from '@playwright/test';
 import { resolve } from 'node:path';
 
 const sut = resolve(__dirname, '../eshop-sut');
-const storefront = 'http://localhost:5173';
+const storefrontPort = Number(process.env.ESHOP_STOREFRONT_PORT ?? 5173);
+const storefront = `http://localhost:${storefrontPort}`;
 const admin = 'http://localhost:5174';
 const runTimestamp = new Date().toISOString();
 
@@ -25,7 +26,7 @@ export default defineConfig({
       url: 'http://localhost:3000/api/products',
     },
     {
-      command: 'node node_modules/vite/bin/vite.js --port 5173 --strictPort',
+      command: `node node_modules/vite/bin/vite.js --port ${storefrontPort} --strictPort`,
       cwd: resolve(sut, 'frontend-web'),
       url: storefront,
     },

@@ -220,3 +220,35 @@ Lượt đầu phát hiện một lỗi trong script: bước chuẩn bị tìm 
 
 Lượt đầu dùng sai nhãn nút thêm ở trang chủ. Mình đã sửa bộ chọn và chạy lại toàn bộ. Chưa chạy Firefox hay WebKit, chưa commit. Lượt 8 đã được ghi vào `prompt_log.md`.
 ```
+
+## 9
+
+Tool: OpenAI Codex
+
+Thời gian: 16/11/2026 18:49:54 (UTC+07:00)
+
+### Prompt
+
+```text
+giữ 15 ca. fr07-13 kiểm nhãn và số tiền, các ca thao tác giỏ chỉ kiểm số tiền. chạy lại 3 trình duyệt, cập nhật report và log, rồi commit riêng phần sửa. ko sửa sut.
+
+```
+
+### Output
+
+```text
+Mình sẽ giữ 15 ca và tách kiểm tra tổng tiền khỏi nhãn “Tổng cộng”. Sau đó mình sẽ chạy lại cả ba trình duyệt, cập nhật báo cáo và nhật ký rồi commit riêng phần sửa FR-07.
+
+
+Cổng 5173 đang được EngDrill sử dụng nên Playwright chưa khởi động được EShop. Mình sẽ chạy web mua sắm EShop trên cổng 5175 qua cấu hình kiểm thử để giữ phiên EngDrill đang chạy.
+
+
+Chromium và Firefox đều chạy đủ 15 ca. Báo cáo Chromium cho thấy FR07-13 vẫn thực hiện bước kiểm số tiền sau khi nhãn sai. WebKit đang chạy lượt cuối.
+
+
+Giữ đủ **15 ca FR-07**. FR07-13 kiểm nhãn và số tiền bằng hai assertion riêng. Các ca thao tác giỏ chỉ kiểm giá trị khi xác minh tổng tiền. Trên cả ba trình duyệt, FR07-13 đọc đúng **58.000.000 ₫** nhưng thất bại vì SUT hiển thị nhãn “Tổng tạm tính”.
+
+Mỗi trình duyệt chạy đủ 15 ca, **4 đạt và 11 không đạt**. Cả ba báo cáo HTML đã được xác minh có MSSV và timestamp ISO. [Chromium](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/reports/fr-07/chromium/index.html>) · [Firefox](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/reports/fr-07/firefox/index.html>) · [WebKit](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/reports/fr-07/webkit/index.html>)
+
+Đã cập nhật `Report.md` và `prompt_log.md`, rồi commit riêng với thông điệp `Separate FR-07 total assertions and refresh browser reports`. Lượt chạy dùng cổng 5175 vì EngDrill đang dùng 5173. Không sửa mã SUT.
+```

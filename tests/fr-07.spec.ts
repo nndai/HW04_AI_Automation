@@ -43,8 +43,12 @@ async function openCart(page: Page, ...products: Product[]) {
   await expect(page).toHaveURL('/cart');
 }
 
-async function expectTotal(page: Page, amount: string) {
-  await expect(main(page).getByText(`${data.totalLabel}: ${amount}`, { exact: true })).toBeVisible();
+function cartTotal(page: Page) {
+  return main(page).locator('table + div > :first-child');
+}
+
+async function expectTotalAmount(page: Page, amount: string) {
+  await expect(cartTotal(page).getByText(amount, { exact: true })).toBeVisible();
 }
 
 async function expectSingleUnit(page: Page, product: Product) {
@@ -126,7 +130,7 @@ test('FR07-05 tăng số lượng và tính lại tiền', async ({ page }) => {
   await row.getByRole('button', { name: /^(\+|tăng(?: số lượng)?)$/i }).click({ timeout: 5000 });
   await expect(quantityCell(row)).toHaveText(double);
   await expect(row.getByRole('cell').nth(3)).toHaveText(data.totals.doubleP1);
-  await expectTotal(page, data.totals.doubleP1);
+  await expectTotalAmount(page, data.totals.doubleP1);
 });
 
 test('FR07-06 giảm số lượng và tính lại tiền', async ({ page }) => {
@@ -137,7 +141,7 @@ test('FR07-06 giảm số lượng và tính lại tiền', async ({ page }) => 
   await row.getByRole('button', { name: /^(-|−|giảm(?: số lượng)?)$/i }).click({ timeout: 5000 });
   await expectSingleUnit(page, P1);
   await expect(row.getByRole('cell').nth(3)).toHaveText(P1.unitPrice);
-  await expectTotal(page, P1.unitPrice);
+  await expectTotalAmount(page, P1.unitPrice);
 });
 
 test('FR07-07 gộp hai lần thêm cùng sản phẩm', async ({ page }) => {
@@ -165,7 +169,7 @@ test('FR07-10 hủy xóa giữ nguyên giỏ và tổng tiền', async ({ page }
   await requestRemoval(page, P1, 'cancel');
   await expectSingleUnit(page, P1);
   await expectSingleUnit(page, P2);
-  await expectTotal(page, data.totals.oneOfEach);
+  await expectTotalAmount(page, data.totals.oneOfEach);
 });
 
 test('FR07-11 xác nhận xóa đúng sản phẩm và tính lại tổng', async ({ page }) => {
@@ -173,7 +177,7 @@ test('FR07-11 xác nhận xóa đúng sản phẩm và tính lại tổng', asyn
   await requestRemoval(page, P1, 'confirm');
   await expect(productRow(page, P1)).toHaveCount(0);
   await expectSingleUnit(page, P2);
-  await expectTotal(page, P2.unitPrice);
+  await expectTotalAmount(page, P2.unitPrice);
 });
 
 test('FR07-12 xóa sản phẩm cuối đưa giỏ về trạng thái trống', async ({ page }) => {
@@ -186,7 +190,9 @@ test('FR07-12 xóa sản phẩm cuối đưa giỏ về trạng thái trống', 
 
 test('FR07-13 hiển thị nhãn Tổng cộng và tổng đúng', async ({ page }) => {
   await openCart(page, P1, P2);
-  await expectTotal(page, data.totals.oneOfEach);
+  const expectedLabel = new RegExp(`^${data.totalLabel}\\s*:`);
+  await expect.soft(cartTotal(page), 'Nhãn tổng tiền phải là Tổng cộng').toHaveText(expectedLabel);
+  await expectTotalAmount(page, data.totals.oneOfEach);
 });
 
 test('FR07-14 tiếp tục mua sắm từ giỏ trống', async ({ page }) => {

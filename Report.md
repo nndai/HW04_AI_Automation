@@ -28,6 +28,8 @@ Ba tính năng FR-06, FR-07 và FR-14 được lấy từ phạm vi đã chọn 
 
 ### Hướng dẫn chạy bộ kiểm thử và xuất báo cáo HTML
 
+Nếu cổng 5173 đang được dùng, đặt biến môi trường `ESHOP_STOREFRONT_PORT` thành một cổng còn trống trước khi chạy Playwright. Lượt chạy lại FR-07 dùng cổng 5175.
+
 ### Kho GitHub công khai và nhật ký commit
 
 ## 4. Nhiệm vụ 1 — Thiết kế, tự động hóa và rà soát script
@@ -120,15 +122,15 @@ Mỗi ca chạy trong một browser context mới. Các ca số lượng sai dù
 | FR07-02 | Giỏ trống | Mở giỏ và kiểm tra vùng thông báo trống. | Có biểu tượng hoặc hình minh họa hiển thị cùng thông báo trống. | FR-07 giỏ trống, FR-24 hình minh họa | `toBeVisible` cho ảnh hoặc biểu tượng trong vùng trạng thái trống. |
 | FR07-03 | P1 × 1 | Mở giỏ và đọc các tiêu đề cột. | Có lần lượt Sản phẩm, Đơn giá, Số lượng, Thành tiền và Thao tác. | FR-07 cột giỏ hàng | `toHaveText` trên danh sách `columnheader` với năm nhãn đúng thứ tự. |
 | FR07-04 | P1 × 1 | Mở giỏ và đọc dòng P1. | Dòng ghi đúng tên P1, đơn giá 30.000.000 ₫, số lượng 1 và thành tiền 30.000.000 ₫. | FR-07 dữ liệu dòng, FR-21 định dạng tiền | `toHaveText` trên từng ô của dòng được xác định theo tên P1. |
-| FR07-05 | P1 × 1 | Bấm nút tăng trên dòng P1. | Dòng P1 hiển thị số lượng 2, thành tiền và Tổng cộng đều bằng 60.000.000 ₫. | FR-07 chỉnh số lượng và tính tiền | `toHaveText` cho số lượng, thành tiền và giá trị Tổng cộng. |
-| FR07-06 | P1 × 2 trên một dòng | Thêm P1 hai lần, mở giỏ, xác nhận đúng một dòng P1 với số lượng 2. Ca thất bại ngay nếu bước chuẩn bị sai. Khi dữ liệu đúng, bấm nút giảm trên dòng P1. | Vẫn có một dòng P1, số lượng giảm còn 1, thành tiền và Tổng cộng đều bằng 30.000.000 ₫. | FR-07 chỉnh số lượng và tính tiền | Dùng `toHaveCount(1)` và `toHaveText('2')` làm assertion bắt buộc trước khi bấm giảm. Sau khi bấm, dùng `toHaveCount(1)` và `toHaveText` cho số lượng, thành tiền và giá trị Tổng cộng. |
+| FR07-05 | P1 × 1 | Bấm nút tăng trên dòng P1. | Dòng P1 hiển thị số lượng 2, thành tiền và tổng tiền đều bằng 60.000.000 ₫. | FR-07 chỉnh số lượng và tính tiền | `toHaveText` cho số lượng và thành tiền. `toBeVisible` cho số tiền 60.000.000 ₫ trong vùng tổng giỏ. |
+| FR07-06 | P1 × 2 trên một dòng | Thêm P1 hai lần, mở giỏ, xác nhận đúng một dòng P1 với số lượng 2. Ca thất bại ngay nếu bước chuẩn bị sai. Khi dữ liệu đúng, bấm nút giảm trên dòng P1. | Vẫn có một dòng P1, số lượng giảm còn 1, thành tiền và tổng tiền đều bằng 30.000.000 ₫. | FR-07 chỉnh số lượng và tính tiền | Dùng `toHaveCount(1)` và `toHaveText('2')` trước khi bấm giảm. Sau khi bấm, kiểm tra đúng một dòng, số lượng và thành tiền bằng `toHaveCount` và `toHaveText`, rồi dùng `toBeVisible` cho số tiền trong vùng tổng giỏ. |
 | FR07-07 | Giỏ trống, P1 được thêm hai lần | Bấm thêm P1 hai lần tại trang chủ rồi mở giỏ. | Chỉ có một dòng P1, số lượng là 2. | FR-07 gộp sản phẩm trùng | `toHaveCount(1)` cho dòng P1 và `toHaveText('2')` tại ô số lượng của dòng đó. |
 | FR07-08 | P1 × 1, P2 × 1 | Mở giỏ và đọc danh sách dòng. | Hai sản phẩm khác nhau nằm ở hai dòng riêng, mỗi dòng có số lượng 1. | FR-07 danh sách sản phẩm | `toHaveCount(2)` cho dòng sản phẩm, `toBeVisible` cho từng dòng và `toHaveText('1')` cho hai ô số lượng. |
 | FR07-09 | P1 × 1 | Bấm Xóa trên dòng P1, chưa chọn tùy chọn trong dialog. | Dialog yêu cầu xác nhận xuất hiện trước khi giỏ bị thay đổi. | FR-07 xác nhận xóa, FR-24 dialog | Với modal, dùng `toBeVisible` cho dialog và xác nhận dòng P1 còn tồn tại. Với hộp xác nhận gốc, đợi sự kiện `dialog`, kiểm tra kiểu `confirm` và chọn hủy để kiểm tra dòng P1 vẫn còn. |
-| FR07-10 | P1 × 1, P2 × 1 | Bấm Xóa P1 rồi chọn hủy. | P1 và P2 vẫn còn, mỗi dòng số lượng 1 và tổng vẫn là 58.000.000 ₫. | FR-07 xác nhận trước khi xóa | `toBeVisible` cho hai dòng và `toHaveText` cho số lượng và giá trị tổng tiền. |
-| FR07-11 | P1 × 1, P2 × 1 | Bấm Xóa P1 rồi xác nhận. | Chỉ P1 bị xóa. P2 còn một dòng số lượng 1 và tổng còn 28.000.000 ₫. | FR-07 xóa đúng dòng và tính tiền | `toHaveCount(0)` cho dòng P1, `toHaveCount(1)` cho dòng P2 và `toHaveText` cho số lượng và giá trị tổng tiền. |
+| FR07-10 | P1 × 1, P2 × 1 | Bấm Xóa P1 rồi chọn hủy. | P1 và P2 vẫn còn, mỗi dòng số lượng 1 và tổng vẫn là 58.000.000 ₫. | FR-07 xác nhận trước khi xóa | `toHaveCount(1)` và `toBeVisible` cho từng dòng, `toHaveText` cho số lượng và `toBeVisible` cho số tiền trong vùng tổng giỏ. |
+| FR07-11 | P1 × 1, P2 × 1 | Bấm Xóa P1 rồi xác nhận. | Chỉ P1 bị xóa. P2 còn một dòng số lượng 1 và tổng còn 28.000.000 ₫. | FR-07 xóa đúng dòng và tính tiền | `toHaveCount(0)` cho dòng P1, `toHaveCount(1)` và `toBeVisible` cho dòng P2, `toHaveText` cho số lượng và `toBeVisible` cho số tiền trong vùng tổng giỏ. |
 | FR07-12 | P1 × 1 là dòng duy nhất | Bấm Xóa P1 rồi xác nhận. | Giỏ chuyển sang trạng thái trống, có thông báo và hình minh họa. | FR-07 xóa và giỏ trống, FR-24 trạng thái trống | `toHaveCount(0)` cho dòng sản phẩm và `toBeVisible` cho thông báo và hình minh họa. |
-| FR07-13 | P1 × 1, P2 × 1 | Mở giỏ và đọc nhãn giá trị tổng. | Nhãn hiển thị chính xác “Tổng cộng” và giá trị là 58.000.000 ₫. | FR-07 nhãn tổng tiền, FR-21 định dạng tiền | `toHaveText` cho nhãn và giá trị, giới hạn trong khu vực tổng giỏ. |
+| FR07-13 | P1 × 1, P2 × 1 | Mở giỏ và kiểm tra riêng nhãn và số tiền trong vùng tổng giỏ. | Nhãn hiển thị chính xác “Tổng cộng” và số tiền là 58.000.000 ₫. | FR-07 nhãn tổng tiền, FR-21 định dạng tiền | `expect.soft(...).toHaveText` kiểm nhãn và `toBeVisible` kiểm số tiền, để cả hai assertion được thực hiện khi nhãn sai. |
 | FR07-14 | Giỏ trống | Bấm Tiếp tục mua sắm từ trạng thái trống. | Điều hướng về trang chủ. | FR-07 tiếp tục mua sắm | `toBeVisible` cho điều khiển có nhãn và `toHaveURL('/')` sau khi bấm. |
 | FR07-15 | P1 × 1 | Bấm Tiếp tục mua sắm từ giỏ đang có sản phẩm. | Điều hướng về trang chủ. | FR-07 tiếp tục mua sắm | `toBeVisible` cho điều khiển có nhãn và `toHaveURL('/')` sau khi bấm. |
 
@@ -155,6 +157,7 @@ Dùng P1 và P2 từ dữ liệu mẫu của SUT. Đơn giá tương ứng là 3
 #### Rà soát script AI, nguyên nhân thiếu sót và cách sửa
 
 - Lượt chạy nháp phát hiện bộ chọn chuẩn bị giỏ dùng nhãn “Thêm vào giỏ hàng” của trang chi tiết. Trang chủ dùng nhãn “Thêm vào giỏ”, nên các ca cần sản phẩm bị hết thời gian chờ ở bước chuẩn bị. Đã sửa bộ chọn theo nhãn chính xác trong thẻ của sản phẩm và chạy lại toàn bộ FR-07.
+- Bản đầu kiểm tra nhãn và số tiền bằng cùng một chuỗi. Khi nhãn sai, các ca thao tác có thể báo lỗi tổng ngay cả khi số tiền đúng. Đã dùng assertion riêng cho số tiền trong vùng tổng giỏ ở FR07-05, FR07-06, FR07-10 và FR07-11. FR07-13 kiểm cả nhãn lẫn số tiền bằng hai assertion độc lập.
 
 #### Ca chưa tự động hóa và lý do
 
@@ -190,11 +193,13 @@ Mỗi dòng tương ứng với một lượt chạy. Các lượt chưa thực 
 | FR-06 | Firefox | 15 | 7 | 8 | [HTML](reports/fr-06/firefox/index.html) |
 | FR-06 | WebKit | 15 | 6 | 9 | [HTML](reports/fr-06/webkit/index.html) |
 | FR-07 | Chromium | 15 | 4 | 11 | [HTML](reports/fr-07/chromium/index.html) |
-| FR-07 | Firefox | | | | |
-| FR-07 | WebKit | | | | |
+| FR-07 | Firefox | 15 | 4 | 11 | [HTML](reports/fr-07/firefox/index.html) |
+| FR-07 | WebKit | 15 | 4 | 11 | [HTML](reports/fr-07/webkit/index.html) |
 | FR-14 | Chromium | | | | |
 | FR-14 | Firefox | | | | |
 | FR-14 | WebKit | | | | |
+
+Trong cả ba lượt FR-07, FR07-13 thấy số tiền 58.000.000 ₫ đúng. Ca vẫn không đạt vì nhãn hiển thị “Tổng tạm tính”.
 
 Mỗi lượt chạy phải có một báo cáo HTML riêng. Báo cáo phải hiển thị `Run by: {StudentID}` với MSSV thật và dấu thời gian chạy theo định dạng ISO 8601.
 
