@@ -539,3 +539,27 @@ Chín báo cáo có cùng 22 mã ca không đạt trên cả ba trình duyệt. 
 
 Đã lưu **17 ảnh minh chứng**, gồm 13 ảnh giao diện khi tái hiện trên Chromium và 4 ảnh báo cáo Playwright ghi phản hồi HTTP cùng thay đổi dữ liệu. Lượt 19 đã được ghi vào `prompt_log.md`.
 ```
+
+## 20
+
+Tool: OpenAI Codex
+
+Thời gian: 17/11/2026 20:52:31 (UTC+07:00)
+
+### Prompt
+
+```text
+chuyển chi tiết 13 lỗi từ report.m sang Bug_Report.md, giữ ảnh và thêm link github issue tương ứng. trong mục 6 của report.md chỉ giữ tóm tắt và link sang Bug_Report.md, kiểm tra link
+
+```
+
+### Output
+
+```text
+Mình sẽ chuyển bảng chi tiết sang `Bug_Report.md`, giữ các ảnh ở vị trí hiện tại và kiểm tra kho GitHub để đối chiếu từng lỗi với issue tương ứng.
+
+
+Đã chuyển chi tiết **13 lỗi** sang [Bug_Report.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/Bug_Report.md>) và giữ nguyên **17 ảnh minh chứng**. Mục 6 của [Report.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/Report.md:256>) giờ chỉ có tóm tắt và liên kết sang báo cáo lỗi.
+
+Đã kiểm tra liên kết nội bộ, 17 đường dẫn ảnh và 13 liên kết issue. Tất cả issue đều mở được và khớp mã BUG tương ứng. Lượt 20 đã được ghi vào `prompt_log.md`. [GitHub Issues](https://github.com/nndai/HW04_AI_Automation/issues)
+```
