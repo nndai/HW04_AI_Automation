@@ -265,6 +265,10 @@ Mỗi lượt chạy phải có một báo cáo HTML riêng. Báo cáo phải hi
 
 ### Tệp Skill và video sử dụng Skill
 
+[Agent Skill kiểm thử web hướng dữ liệu với Playwright](agent-skill/SKILL.md)
+
+### Liên kết video sử dụng Skill
+
 ## 9. Tài liệu tham khảo
 
 - [Đề HW04](../2026.HW04.Automation%20Testing_Vi.md)

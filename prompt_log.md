@@ -563,3 +563,60 @@ Mình sẽ chuyển bảng chi tiết sang `Bug_Report.md`, giữ các ảnh ở
 
 Đã kiểm tra liên kết nội bộ, 17 đường dẫn ảnh và 13 liên kết issue. Tất cả issue đều mở được và khớp mã BUG tương ứng. Lượt 20 đã được ghi vào `prompt_log.md`. [GitHub Issues](https://github.com/nndai/HW04_AI_Automation/issues)
 ```
+
+## 21
+
+Tool: OpenAI Codex
+
+Thời gian: 17/11/2026 23:14:36 (UTC+07:00)
+
+### Prompt
+
+```text
+tạo agent-skill/SKILL.md theo mục 7 đề hw04. dùng fr-06, fr-07 và fr-14 làm ví dụ. skill dùng lại được cho tính năng khác: đọc srs, lập ca, tách data json/csv, viết và rà test playwright, chạy 3 trình duyệt, xuất html có mssv và timestamp iso. ghi cách cập nhật test khi srs đổi và cách demo skill từ đầu đến cuối trên một tính năng. ko sửa test hiện có
+
+```
+
+### Output
+
+```text
+Mình sẽ dùng hướng dẫn tạo skill để viết `agent-skill/SKILL.md`, lấy FR-06, FR-07 và FR-14 làm ví dụ cho quy trình có thể tái sử dụng.
+
+
+Đã tạo [agent-skill/SKILL.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/agent-skill/SKILL.md>) theo mục 7 HW04 và liên kết từ `Report.md`.
+
+Skill dùng FR-06, FR-07 và FR-14 để minh họa quy trình tái sử dụng từ đọc SRS, lập ca, tách JSON/CSV, viết và rà test đến chạy ba trình duyệt và xuất HTML có MSSV cùng timestamp ISO. Tệp cũng có quy trình cập nhật khi SRS đổi và kịch bản demo FR-06 từ đầu đến cuối.
+
+Đã kiểm tra cấu trúc skill, liên kết nội bộ và xác nhận cấu hình hiện có nhận đủ 15 ca FR-06 trên mỗi trình duyệt. Test hiện có không bị sửa. Video demo chưa quay. Lượt 21 đã được ghi vào `prompt_log.md`.
+```
+
+## 22
+
+Tool: OpenAI Codex
+
+Thời gian: 18/11/2026 00:07:21 (UTC+07:00)
+
+### Prompt
+
+```text
+tạo README.md có bảng tự chấm và số liệu: 3 tính năng, 48 ca, 9 lượt chạy, 144 lần thực thi, 78 pass, 66 fail, 13 lỗi. thêm link repo, report, bug report và skill. để trống điểm tự chấm và link video, đọc HW03 xem các file md cần tạo và tạo đầy đủ về file và nội dung, chưa tạo pdf
+
+```
+
+### Output
+
+```text
+Mình sẽ đối chiếu các tệp Markdown trong bản nộp HW03 với yêu cầu HW04, rồi tạo README và các tài liệu Markdown còn thiếu bằng dữ liệu thực tế của bài. Điểm tự chấm và liên kết video sẽ để trống.
+
+
+Đã tạo [README.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/README.md>) với bảng tự chấm, liên kết kho GitHub và hồ sơ bài làm. Điểm tự chấm và hai liên kết video để trống. Đã đối chiếu **3 tính năng, 48 ca, 9 lượt chạy, 144 lần thực thi, 78 đạt, 66 không đạt và 13 lỗi** với báo cáo hiện có.
+
+Theo bộ hồ sơ HW03 và checklist HW04, đã bổ sung:
+
+- [AI Audit Report](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/AI_Audit_Report.md>)
+- [AI Critique](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/AI_Critique.md>)
+- [Khai báo sử dụng AI](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/AI_Disclosure.md>)
+- [Bảng kiểm riêng tư](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/AI_Privacy_Checklist.md>)
+
+Đã kiểm tra liên kết nội bộ và ghi lượt 22 vào nhật ký. Các biểu mẫu còn chờ bạn rà soát và ký. Chưa tạo PDF hay xuất Git commit log.
+```
