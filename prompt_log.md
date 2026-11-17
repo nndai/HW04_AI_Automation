@@ -512,3 +512,30 @@ FR-06 đã hoàn tất trên cả ba trình duyệt. Mỗi lượt có 10 ca đ�
 
 Đã commit riêng FR-06 ở `de6b001` và FR-07 với thông điệp `Scope FR-07 empty cart illustration and refresh reports`. Lượt 18 đã được ghi vào `prompt_log.md`.
 ```
+
+## 19
+
+Tool: OpenAI Codex
+
+Thời gian: 17/11/2026 01:06:37 (UTC+07:00)
+
+### Prompt
+
+```text
+đọc 9 html trong report, gộp các fail cùng lỗi sut. tái hiện và chụp ít nhất 1 ảnh rõ cho mỗi lỗi xác nhận. cập nhật mục lỗi trong report với mã ca, bước tái hiện, expected, actual và link ảnh
+
+```
+
+### Output
+
+```text
+Mình sẽ đối chiếu chín báo cáo HTML, gộp các ca không đạt theo lỗi SUT và tái hiện từng lỗi để chụp minh chứng. Sau đó mình sẽ cập nhật mục lỗi trong `Report.md`.
+
+
+Chín báo cáo có cùng 22 mã ca không đạt trên cả ba trình duyệt. Mình đã gộp chúng thành 13 lỗi sau khi tái hiện, gồm cả lỗi thiếu badge được kiểm riêng khi giỏ đã có sản phẩm. Phần ảnh hiện có 13 ảnh giao diện và 4 ảnh bổ sung ghi phản hồi HTTP và thay đổi dữ liệu.
+
+
+Đã đối chiếu **9 báo cáo HTML** và gộp **66 lần không đạt của 22 mã ca** thành **13 lỗi SUT đã tái hiện**. Mục Báo cáo lỗi trong [Report.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/Report.md:256>) có mã ca, bước tái hiện, expected theo SRS, actual và liên kết ảnh cho từng lỗi.
+
+Đã lưu **17 ảnh minh chứng**, gồm 13 ảnh giao diện khi tái hiện trên Chromium và 4 ảnh báo cáo Playwright ghi phản hồi HTTP cùng thay đổi dữ liệu. Lượt 19 đã được ghi vào `prompt_log.md`.
+```
