@@ -2,10 +2,13 @@
 
 ## 1. Thông tin sinh viên
 
-- Họ và tên
-- MSSV
-- Lớp
-- Ngày nộp
+| Mục | Thông tin |
+| --- | --- |
+| Họ và tên | Nguyễn Ngọc Đại |
+| MSSV | 23120226 |
+| Khóa | 2023 |
+| Môn học | Kiểm chứng Phần mềm |
+| Bài tập | HW04-AI — Kiểm thử tự động |
 
 ## 2. Phạm vi kiểm thử
 
@@ -28,9 +31,26 @@ Ba tính năng FR-06, FR-07 và FR-14 được lấy từ phạm vi đã chọn 
 
 ### Hướng dẫn chạy bộ kiểm thử và xuất báo cáo HTML
 
-Nếu cổng 5173 đang được dùng, đặt biến môi trường `ESHOP_STOREFRONT_PORT` thành một cổng còn trống trước khi chạy Playwright. Lượt chạy lại FR-07 dùng cổng 5175.
+Đặt thư mục `eshop-sut` cạnh thư mục bài làm. Cài phụ thuộc trong `backend`, `frontend-web` và `frontend-admin` của SUT bằng `npm ci`. Từ thư mục bài làm, chạy `npm ci` và `npx playwright install chromium firefox webkit`. Playwright khởi động các dịch vụ SUT theo cấu hình; dùng cơ sở dữ liệu thử vì backend nạp lại dữ liệu mẫu khi khởi động.
+
+Ví dụ từ PowerShell cho đủ ba tính năng và ba trình duyệt. Dùng thư mục theo thời điểm chạy để lưu lịch sử. Nếu web mua sắm cần cổng khác, đặt `$env:ESHOP_STOREFRONT_PORT = '5175'` trước khi chạy.
+
+```powershell
+$run = Get-Date -Format 'yyyyMMdd-HHmmss'
+foreach ($feature in 'fr-06', 'fr-07', 'fr-14') {
+    foreach ($browser in 'chromium', 'firefox', 'webkit') {
+        $env:PLAYWRIGHT_HTML_OUTPUT_DIR = "reports/$feature/$run/$browser"
+        node node_modules/playwright/cli.js test "tests/$feature.spec.ts" "--project=$browser" --workers=1
+        Write-Output "$feature $browser | Playwright exit code $LASTEXITCODE"
+    }
+}
+```
+
+Mỗi thư mục có `index.html` và tệp đính kèm do Playwright sinh. Mở HTML để kiểm tra trình duyệt, số liệu, `Run by: 23120226` và thời gian ISO 8601 trước khi đối chiếu với bảng kết quả.
 
 ### Kho GitHub công khai và nhật ký commit
+
+[Kho GitHub công khai](https://github.com/nndai/HW04_AI_Automation)
 
 ## 4. Nhiệm vụ 1 — Thiết kế, tự động hóa và rà soát script
 
@@ -38,10 +58,10 @@ Nếu cổng 5173 đang được dùng, đặt biến môi trường `ESHOP_STOR
 
 #### Căn cứ và đối chiếu SUT
 
-- [SRS EShop](../eshop-sut/README.md) quy định nội dung chi tiết, số lượng nguyên dương tối thiểu 1 và phản hồi khi thêm vào giỏ (FR-06). FR-21 quy định định dạng giá và tiêu đề, FR-23 quy định breadcrumb và badge, FR-24 quy định phản hồi và văn bản thay thế của ảnh.
+- [SRS EShop](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/README.md) quy định nội dung chi tiết, số lượng nguyên dương tối thiểu 1 và phản hồi khi thêm vào giỏ (FR-06). FR-21 quy định định dạng giá và tiêu đề, FR-23 quy định breadcrumb và badge, FR-24 quy định phản hồi và văn bản thay thế của ảnh.
 - Chromium ở `/product/1` hiển thị tên, giá, mô tả và ô số lượng mặc định 1. Màn hình thiếu danh mục và breadcrumb. Sau một lần bấm thêm, nhãn nút và liên kết giỏ hàng vẫn giữ nguyên.
-- [ProductDetail.jsx](../eshop-sut/frontend-web/src/pages/ProductDetail.jsx) bỏ qua lần bấm đầu, gọi `parseInt` ở lần bấm tiếp theo và đổi nhãn nút trong hai giây. Ô số lượng thiếu `min`, bước mặc định của HTML là 1 và thao tác thêm qua nút không tự kích hoạt xác thực form. [CartContext.jsx](../eshop-sut/frontend-web/src/context/CartContext.jsx) đưa số lượng nhận được vào giỏ trực tiếp. [App.jsx](../eshop-sut/frontend-web/src/App.jsx) chỉ hiển thị liên kết giỏ hàng dạng chữ.
-- [Dữ liệu seed](../eshop-sut/backend/database.js) cung cấp sản phẩm và danh mục. [API chi tiết](../eshop-sut/backend/server.js) trả giá kiểu số cho ID lẻ và kiểu chuỗi cho ID chẵn, nên có hai ca kiểm tra cùng chuẩn hiển thị.
+- [ProductDetail.jsx](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/frontend-web/src/pages/ProductDetail.jsx) bỏ qua lần bấm đầu, gọi `parseInt` ở lần bấm tiếp theo và đổi nhãn nút trong hai giây. Ô số lượng thiếu `min`, bước mặc định của HTML là 1 và thao tác thêm qua nút không tự kích hoạt xác thực form. [CartContext.jsx](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/frontend-web/src/context/CartContext.jsx) đưa số lượng nhận được vào giỏ trực tiếp. [App.jsx](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/frontend-web/src/App.jsx) chỉ hiển thị liên kết giỏ hàng dạng chữ.
+- [Dữ liệu seed](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/backend/database.js) cung cấp sản phẩm và danh mục. [API chi tiết](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/backend/server.js) trả giá kiểu số cho ID lẻ và kiểu chuỗi cho ID chẵn, nên có hai ca kiểm tra cùng chuẩn hiển thị.
 
 #### Dữ liệu và điều kiện chung
 
@@ -53,7 +73,7 @@ Mỗi ca mở một browser context mới, bắt đầu với khách chưa đăn
 | P2 | `/product/2` | Samsung Galaxy S24 Ultra | 28.000.000 ₫ | Màn hình hiển thị xuất sắc, camera siêu zoom | Điện thoại | `https://placehold.co/300x300/png?text=Samsung+S24` |
 | P3 | `/product/3` | MacBook Pro M3 | 45.000.000 ₫ | Laptop chuyên nghiệp mạnh mẽ | Laptop | `https://placehold.co/300x300/png?text=Macbook+Pro` |
 
-#### Ca kiểm thử dự kiến
+#### Danh sách ca kiểm thử
 
 | ID | Dữ liệu | Thao tác | Kết quả mong đợi | Căn cứ SRS | Assertion Playwright dự kiến |
 | --- | --- | --- | --- | --- | --- |
@@ -106,14 +126,16 @@ Mỗi ca chạy trong một browser context mới. Các ca số lượng sai dù
 - **Cách sửa.** Xác nhận giỏ trống trước khi bắt đầu. Với P1, mở trang chi tiết, nhập 1 và bấm thêm một lần, rồi kiểm giỏ có P1 với số lượng 1 trước khi kiểm badge 1. Với P2, thực hiện tương tự, kiểm giỏ có cả hai dòng với số lượng 1 rồi mới kiểm badge 2. Dùng assertion dừng ca ngay khi một bước thất bại.
 - **Xác minh sau khi sửa.** Trên cả ba trình duyệt, FR06-15 dừng ở bước xác nhận P1 có trong giỏ sau một lần bấm. Lượt chạy này chưa tới bước kiểm badge 1 hoặc thêm P2.
 
-#### Ca chưa tự động hóa và lý do
+#### Phạm vi xác minh
+
+Cả 15 ca đã tự động hóa. FR06-03 tự động kiểm alt có nội dung. Khi đối chiếu mã SUT, thẻ ảnh dùng tên của sản phẩm đang hiển thị làm alt. FR06-15 dừng ở bước xác nhận P1 có trong giỏ nên chưa thực thi các assertion badge và P2 trong ca này.
 
 ### 4.2 FR-07 — Giỏ hàng
 
 #### Đối chiếu SRS và SUT
 
-- FR-07 quy định các cột trong giỏ, nút tăng/giảm, gộp sản phẩm trùng, xác nhận trước khi xóa, điều hướng mua tiếp, nhãn tổng tiền và trạng thái giỏ trống. FR-21 quy định định dạng tiền và FR-24 bổ sung yêu cầu về dialog và hình minh họa. [SRS EShop](../eshop-sut/README.md)
-- Khi đọc mã SUT, thấy giỏ hiện dùng cột “Giá” và nhãn “Tổng tạm tính”, hiển thị số lượng dạng chữ, xóa trực tiếp và chưa có hình minh họa khi trống. Hàm thêm tạo một dòng mới mỗi lần. Ghi nhận này dùng để chuẩn bị lượt chạy. Cột kết quả mong đợi trong bảng luôn theo SRS. [Cart.jsx](../eshop-sut/frontend-web/src/pages/Cart.jsx) · [CartContext.jsx](../eshop-sut/frontend-web/src/context/CartContext.jsx)
+- FR-07 quy định các cột trong giỏ, nút tăng/giảm, gộp sản phẩm trùng, xác nhận trước khi xóa, điều hướng mua tiếp, nhãn tổng tiền và trạng thái giỏ trống. FR-21 quy định định dạng tiền và FR-24 bổ sung yêu cầu về dialog và hình minh họa. [SRS EShop](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/README.md)
+- Khi đọc mã SUT, thấy giỏ hiện dùng cột “Giá” và nhãn “Tổng tạm tính”, hiển thị số lượng dạng chữ, xóa trực tiếp và chưa có hình minh họa khi trống. Hàm thêm tạo một dòng mới mỗi lần. Ghi nhận này dùng để chuẩn bị lượt chạy. Cột kết quả mong đợi trong bảng luôn theo SRS. [Cart.jsx](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/frontend-web/src/pages/Cart.jsx) · [CartContext.jsx](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/frontend-web/src/context/CartContext.jsx)
 
 #### Danh sách ca kiểm thử
 
@@ -161,15 +183,17 @@ Dùng P1 và P2 từ dữ liệu mẫu của SUT. Đơn giá tương ứng là 3
 - Bản đầu kiểm tra nhãn và số tiền bằng cùng một chuỗi. Khi nhãn sai, các ca thao tác có thể báo lỗi tổng ngay cả khi số tiền đúng. Đã dùng assertion riêng cho số tiền trong vùng tổng giỏ ở FR07-05, FR07-06, FR07-10 và FR07-11. FR07-13 kiểm cả nhãn lẫn số tiền bằng hai assertion độc lập.
 - FR-07 và FR-24 yêu cầu hình minh họa thuộc trạng thái giỏ trống. FR07-02 và FR07-12 tìm hình hiển thị trong vùng chứa thông báo giỏ trống và loại biểu tượng nằm trong nút hoặc liên kết.
 
-#### Ca chưa tự động hóa và lý do
+#### Phạm vi xác minh
+
+Cả 15 ca đã tự động hóa. FR07-06 dừng khi bước chuẩn bị tạo hai dòng P1 thay vì một dòng số lượng 2. FR07-10 đến FR07-12 dừng vì SUT xóa trực tiếp và thiếu dialog, nên chưa xác minh được các bước sau khi chọn hủy hoặc xác nhận.
 
 ### 4.3 FR-14 — Quản lý danh mục
 
 #### Đối chiếu SRS và SUT
 
-- FR-14 yêu cầu quản trị viên thêm, xem, xóa danh mục và bắt buộc có tên. Phần mô tả FR-14 chỉ liệt kê ba thao tác này. Ca sửa dùng hợp đồng `PUT /api/categories/:id` ở đặc tả API mục 3.4. Kiểm tra dữ liệu sau khi sửa bằng bảng danh mục trên web admin. [SRS EShop](../eshop-sut/README.md) · [Đặc tả API](../eshop-sut/api_specification.md)
-- FR-12 yêu cầu vai trò admin để vào web admin và yêu cầu JWT hợp lệ thuộc vai trò admin cho POST, PUT, DELETE danh mục. GET danh mục phục vụ đọc dữ liệu nên các ca giới hạn quyền đọc kiểm tra giao diện admin. [SRS EShop](../eshop-sut/README.md)
-- Web admin có bảng danh mục, form thêm và nút xóa trên từng dòng. Chức năng sửa hiện có ở API. POST và PUT chuyển tên từ request vào SQLite, còn middleware JWT của nhóm route ghi chỉ xác minh token. Kiểm tra thực thi sẽ đối chiếu các hành vi này với SRS và hợp đồng API. [Giao diện admin](../eshop-sut/frontend-admin/src/App.jsx) · [Mã backend](../eshop-sut/backend/server.js)
+- FR-14 yêu cầu quản trị viên thêm, xem, xóa danh mục và bắt buộc có tên. Phần mô tả FR-14 chỉ liệt kê ba thao tác này. Ca sửa dùng hợp đồng `PUT /api/categories/:id` ở đặc tả API mục 3.4. Kiểm tra dữ liệu sau khi sửa bằng bảng danh mục trên web admin. [SRS EShop](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/README.md) · [Đặc tả API](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/api_specification.md)
+- FR-12 yêu cầu vai trò admin để vào web admin và yêu cầu JWT hợp lệ thuộc vai trò admin cho POST, PUT, DELETE danh mục. GET danh mục phục vụ đọc dữ liệu nên các ca giới hạn quyền đọc kiểm tra giao diện admin. [SRS EShop](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/README.md)
+- Web admin có bảng danh mục, form thêm và nút xóa trên từng dòng. Chức năng sửa hiện có ở API. POST và PUT chuyển tên từ request vào SQLite, còn middleware JWT của nhóm route ghi chỉ xác minh token. Kiểm tra thực thi sẽ đối chiếu các hành vi này với SRS và hợp đồng API. [Giao diện admin](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/frontend-admin/src/App.jsx) · [Mã backend](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/backend/server.js)
 
 #### Danh sách ca kiểm thử
 
@@ -221,7 +245,9 @@ Dùng tài khoản admin và user mẫu của SUT theo đúng vai trò, mỗi ca
 - **Thiếu sót ở FR14-05/06.** Bản AI dùng hết thời gian chờ phản hồi làm căn cứ đi tiếp. Khi POST chậm hoặc form không có dấu hiệu xác thực, ca có thể đọc danh sách quá sớm và kết luận sai rằng dữ liệu giữ nguyên.
 - **Cách sửa.** Theo dõi yêu cầu POST và chờ phản hồi hoàn tất trước khi so dữ liệu. Nếu không nhận phản hồi, ca xác nhận chưa có POST và form đã chặn qua trạng thái invalid hoặc nút vô hiệu hóa. POST đang chờ hoặc việc thiếu dấu hiệu chặn khiến ca thất bại.
 
-#### Ca chưa tự động hóa và lý do
+#### Phạm vi xác minh
+
+Cả 18 ca đã tự động hóa. Phần sửa danh mục được kiểm qua PUT rồi đối chiếu bảng web admin. FR-14 trong SRS không quy định điều khiển sửa trên giao diện; hợp đồng cập nhật nằm ở mục 3.4 của đặc tả API.
 
 ## 5. Kết quả thực thi đa trình duyệt
 
@@ -231,7 +257,7 @@ Dùng tài khoản admin và user mẫu của SUT theo đúng vai trò, mỗi ca
 
 ### Các lượt chạy theo tính năng và trình duyệt
 
-Mỗi dòng tương ứng với một lượt chạy. Các lượt chưa thực thi để trống số liệu và liên kết. Cột Lỗi ghi số ca kiểm thử không đạt trong lượt chạy.
+Mỗi dòng tương ứng với một lượt chạy toàn bộ ca của một tính năng trên một trình duyệt.
 
 | Tính năng | Trình duyệt | Số ca chạy | Đạt | Lỗi | Liên kết HTML |
 | --- | --- | --- | --- | --- | --- |
@@ -259,18 +285,22 @@ Mỗi lượt chạy phải có một báo cáo HTML riêng. Báo cáo phải hi
 
 ## 7. Nhiệm vụ 2 — Video minh họa
 
-### Liên kết YouTube Unlisted
+Video minh họa Nhiệm vụ 2 và quy trình sử dụng Agent Skill được trình bày trong cùng một video. [Xem video trên YouTube](https://youtu.be/d-J6_RUuAiE).
 
 ## 8. Agent Skill
 
-### Tệp Skill và video sử dụng Skill
-
 [Agent Skill kiểm thử web hướng dữ liệu với Playwright](agent-skill/SKILL.md)
 
-### Liên kết video sử dụng Skill
+Phần minh họa sử dụng Skill từ đầu đến cuối nằm trong video chung ở mục 7.
 
 ## 9. Tài liệu tham khảo
 
-- [Đề HW04](../2026.HW04.Automation%20Testing_Vi.md)
-- [SRS EShop](../eshop-sut/README.md)
+- Đề HW04-AI — Kiểm thử tự động, tài liệu môn học
+- [SRS EShop](https://github.com/ttbhanh/eshop-sut/blob/85af3ba875c88283615e22cb108f13e2fccaf0e9/README.md)
+
+## Phụ lục — Kiểm toán và khai báo sử dụng AI
+
+OpenAI Codex hỗ trợ đọc SRS, thiết kế ca, soạn và rà script Playwright, thực thi kiểm thử, tổng hợp các lỗi đã tái hiện và chuẩn bị tài liệu. Sinh viên xác định phạm vi và yêu cầu điều chỉnh luồng, assertion và cách đọc kết quả. Báo cáo HTML và ảnh minh chứng được ghi từ các lượt thực thi thực tế. [Phụ lục kiểm toán AI](AI_Audit_Report.md) · [Bài phản biện AI](AI_Critique.md) · [Biểu mẫu khai báo](AI_Disclosure.md)
+
+Nhật ký tương tác ghi công cụ, ngày giờ, prompt và đầu ra của AI cho từng lượt. [Nhật ký prompt](prompt_log.md) · [Bảng kiểm riêng tư](AI_Privacy_Checklist.md)
 

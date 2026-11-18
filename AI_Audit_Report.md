@@ -22,7 +22,7 @@ I use AI tools for the following tasks,
 | Ca, dữ liệu và script FR-14 | [Lượt 10](prompt_log.md#10), [lượt 11](prompt_log.md#11), [lượt 12](prompt_log.md#12) | INCOMPLETE | Hai ca tên sai có thể tiếp tục đọc dữ liệu khi hết thời gian chờ. FR-14 bắt buộc có tên, FR-12 giới hạn vai trò truy cập. | Xác nhận form chặn hoặc chờ POST hoàn tất rồi so dữ liệu. Chạy lại 18 ca trên ba trình duyệt. [Lượt 13](prompt_log.md#13), [lượt 14](prompt_log.md#14) |
 | Báo cáo HTML và tổng hợp | [Lượt 14](prompt_log.md#14), [lượt 18](prompt_log.md#18) | VALID | Chín báo cáo có MSSV, timestamp ISO và số liệu theo từng cặp tính năng và trình duyệt. | Đối chiếu HTML với bảng chính. 48 ca riêng, 144 lần thực thi, 78 đạt và 66 không đạt. [Bảng kết quả](Report.md) |
 | Báo cáo lỗi và minh chứng | [Lượt 19](prompt_log.md#19), [lượt 20](prompt_log.md#20) | VALID | 22 ca không đạt lặp lại trên ba trình duyệt. Tái hiện và tách lỗi trước khỏi các bước bị cản, sau đó gộp thành 13 lỗi. | Đối chiếu ảnh chụp thật và 13 liên kết issue theo mã lỗi. [Báo cáo lỗi](Bug_Report.md) |
-| Agent Skill | [Lượt 21](prompt_log.md#21) | VALID | Có hướng dẫn thiết kế, rà soát, chạy đa trình duyệt và cập nhật khi đổi SRS. | Kiểm cấu trúc, đường dẫn tham chiếu và danh sách ca FR-06. Video demo thực tế chờ sinh viên quay. [Agent Skill](agent-skill/SKILL.md) |
+| Agent Skill | [Lượt 21](prompt_log.md#21) | VALID | Có hướng dẫn thiết kế, rà soát, chạy đa trình duyệt và cập nhật khi đổi SRS. | Đã kiểm cấu trúc, các đường dẫn tham chiếu và lệnh liệt kê đủ 15 ca FR-06. [Agent Skill](agent-skill/SKILL.md) · [Video demo chung](README.md#video-demo) |
 
 ## Tổng hợp đánh giá
 
@@ -41,12 +41,13 @@ AI phù hợp với việc viết nháp ca, tạo script hướng dữ liệu v�
 
 ## Khai báo và tài liệu liên quan
 
-Bản thiết kế ca, script, phần tổng hợp báo cáo và bộ tài liệu hỗ trợ có bản nháp do OpenAI Codex tạo. Sinh viên đã chỉ định phạm vi, yêu cầu sửa các bước xác minh và quyết định cách tách assertion. Các báo cáo HTML và ảnh minh chứng ghi lại quá trình thực thi thật. Nội dung cam đoan và chữ ký do sinh viên xác nhận trước khi nộp.
+Bản thiết kế ca, script, phần tổng hợp báo cáo và tài liệu hỗ trợ có sử dụng OpenAI Codex. Sinh viên đã chỉ định phạm vi, yêu cầu sửa các bước xác minh và quyết định cách tách assertion. Các báo cáo HTML và ảnh minh chứng ghi lại quá trình thực thi.
 
 - [Nhật ký đầy đủ](prompt_log.md)
 - [Bài phản biện AI](AI_Critique.md)
 - [Biểu mẫu khai báo](AI_Disclosure.md)
 - Đề HW04, mục 9 và 10
 
-**Ngày xác nhận**  
-**Chữ ký sinh viên**
+**Ngày xác nhận** — 18/11/2026
+
+**Chữ ký sinh viên** — Nguyễn Ngọc Đại

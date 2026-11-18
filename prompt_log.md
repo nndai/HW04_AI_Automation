@@ -620,3 +620,29 @@ Theo bộ hồ sơ HW03 và checklist HW04, đã bổ sung:
 
 Đã kiểm tra liên kết nội bộ và ghi lượt 22 vào nhật ký. Các biểu mẫu còn chờ bạn rà soát và ký. Chưa tạo PDF hay xuất Git commit log.
 ```
+
+## 23
+
+Tool: OpenAI Codex
+
+Thời gian: 18/11/2026 01:27:52 (UTC+07:00)
+
+### Prompt
+
+```text
+Hoàn thiên các file md, report chuẩn bị nộp, link video tôi sẽ thêm sau, chưa tạo pdf
+
+```
+
+### Output
+
+```text
+Mình sẽ rà toàn bộ hồ sơ Markdown theo đề HW04, điền các mục có căn cứ từ mã nguồn và kết quả chạy, rồi kiểm tra liên kết như khi nộp. Phần video sẽ để trống để bạn thêm sau.
+
+
+Đã hoàn thiện bộ Markdown. [Report.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/Report.md>) đã có thông tin sinh viên, hướng dẫn chạy lại, tám commit thay đổi script, phạm vi xác minh của từng tính năng và phần khai báo AI. [README.md](<D:/HocTap/N4K1/Testing/HW4/2026.HW04.Automation Testing_work/README.md>) dẫn đến toàn bộ hồ sơ.
+
+Đã kiểm tra liên kết và đối chiếu chín HTML: **144 lần thực thi, 78 đạt, 66 không đạt**. Báo cáo lỗi giữ **13 lỗi** cùng ảnh và GitHub Issues tương ứng.
+
+Điểm tự chấm, liên kết video và chữ ký vẫn để trống. Chưa tạo PDF hay xuất nhật ký Git. Lượt 23 đã được ghi vào `prompt_log.md`.
+```
