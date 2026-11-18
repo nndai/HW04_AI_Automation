@@ -261,27 +261,25 @@ Mỗi dòng tương ứng với một lượt chạy toàn bộ ca của một t
 
 | Tính năng | Trình duyệt | Số ca chạy | Đạt | Lỗi | Liên kết HTML |
 | --- | --- | --- | --- | --- | --- |
-| FR-06 | Chromium | 15 | 10 | 5 | [HTML](reports/fr-06/after-assertion-review/chromium/index.html) |
-| FR-06 | Firefox | 15 | 10 | 5 | [HTML](reports/fr-06/after-assertion-review/firefox/index.html) |
-| FR-06 | WebKit | 15 | 10 | 5 | [HTML](reports/fr-06/after-assertion-review/webkit/index.html) |
-| FR-07 | Chromium | 15 | 4 | 11 | [HTML](reports/fr-07/after-assertion-review/chromium/index.html) |
-| FR-07 | Firefox | 15 | 4 | 11 | [HTML](reports/fr-07/after-assertion-review/firefox/index.html) |
-| FR-07 | WebKit | 15 | 4 | 11 | [HTML](reports/fr-07/after-assertion-review/webkit/index.html) |
-| FR-14 | Chromium | 18 | 12 | 6 | [HTML](reports/fr-14/full-after-review/chromium/index.html) |
-| FR-14 | Firefox | 18 | 12 | 6 | [HTML](reports/fr-14/full-after-review/firefox/index.html) |
-| FR-14 | WebKit | 18 | 12 | 6 | [HTML](reports/fr-14/full-after-review/webkit/index.html) |
+| FR-06 | Chromium | 15 | 10 | 5 | [HTML](reports/fr-06/chromium/index.html) |
+| FR-06 | Firefox | 15 | 10 | 5 | [HTML](reports/fr-06/firefox/index.html) |
+| FR-06 | WebKit | 15 | 10 | 5 | [HTML](reports/fr-06/webkit/index.html) |
+| FR-07 | Chromium | 15 | 4 | 11 | [HTML](reports/fr-07/chromium/index.html) |
+| FR-07 | Firefox | 15 | 4 | 11 | [HTML](reports/fr-07/firefox/index.html) |
+| FR-07 | WebKit | 15 | 4 | 11 | [HTML](reports/fr-07/webkit/index.html) |
+| FR-14 | Chromium | 18 | 12 | 6 | [HTML](reports/fr-14/chromium/index.html) |
+| FR-14 | Firefox | 18 | 12 | 6 | [HTML](reports/fr-14/firefox/index.html) |
+| FR-14 | WebKit | 18 | 12 | 6 | [HTML](reports/fr-14/webkit/index.html) |
 
 Trong cả ba lượt FR-07, FR07-13 thấy số tiền 58.000.000 ₫ đúng. Ca vẫn không đạt vì nhãn hiển thị “Tổng tạm tính”.
 
 FR-14 có cùng sáu ca không đạt trên cả ba trình duyệt. FR14-05, FR14-06 và FR14-07 ghi nhận tên rỗng hoặc chỉ có khoảng trắng vẫn được lưu. FR14-13, FR14-14 và FR14-15 ghi nhận JWT của user nhận HTTP 200 và làm thay đổi dữ liệu khi thêm, sửa hoặc xóa.
 
-Chạy lại riêng FR14-05/06 sau khi sửa đồng bộ. Cả hai ca đều không đạt trên từng trình duyệt vì POST hoàn tất với HTTP 200 và danh sách có thêm bản ghi. Kết quả chạy lại hai ca được ghi riêng với bảng chạy toàn bộ. [Chromium](reports/fr-14/recheck-05-06/chromium/index.html) · [Firefox](reports/fr-14/recheck-05-06/firefox/index.html) · [WebKit](reports/fr-14/recheck-05-06/webkit/index.html)
-
 Mỗi lượt chạy phải có một báo cáo HTML riêng. Báo cáo phải hiển thị `Run by: {StudentID}` với MSSV thật và dấu thời gian chạy theo định dạng ISO 8601.
 
 ## 6. Báo cáo lỗi và minh chứng
 
-Đã xác nhận **13 lỗi SUT** từ **22 ca không đạt** trên ba trình duyệt, tương ứng 66 lần không đạt. Xem mã ca, bước tái hiện, kết quả mong đợi và thực tế, ảnh minh chứng và GitHub Issue tương ứng trong [Bug_Report.md](Bug_Report.md).
+Đã xác nhận **13 lỗi SUT** từ **22 mã ca không đạt** trong các lượt chạy đa trình duyệt, tương ứng 66 lần không đạt. Xem mã ca, bước tái hiện, kết quả mong đợi và thực tế, ảnh minh chứng và GitHub Issue tương ứng trong [Bug_Report.md](Bug_Report.md).
 
 ## 7. Nhiệm vụ 2 — Video minh họa
 
